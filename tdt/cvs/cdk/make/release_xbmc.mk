@@ -129,7 +129,7 @@ release_xbmc_spark7162: release_xbmc_common_utils
 	echo "spark7162" > $(prefix)/release/etc/hostname
 	cp $(buildprefix)/root/release/halt_spark $(prefix)/release/etc/init.d/halt
 	chmod 755 $(prefix)/release/etc/init.d/halt
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontcontroller/aotom/aotom.ko $(prefix)/release/lib/modules/
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontcontroller/aotom_spark/aotom.ko $(prefix)/release/lib/modules/
 	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/stgfb/stmfb/stmcore-display-sti7105.ko $(prefix)/release/lib/modules/
 	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontends/*.ko $(prefix)/release/lib/modules/
 	if [ -e $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/i2c_spi/i2s.ko ]; then \
@@ -144,7 +144,7 @@ release_xbmc_spark7162: release_xbmc_common_utils
 	rm -f $(prefix)/release/bin/gotosleep
 	rm -f $(prefix)/release/bin/vdstandby
 	cp -dp $(buildprefix)/root/etc/lircd_spark7162.conf $(prefix)/release/etc/lircd.conf
-	cp -p $(targetprefix)/usr/bin/lircd $(prefix)/release/usr/bin/
+	cp -p $(buildprefix)/root/usr/bin/lircd $(prefix)/release/usr/bin/
 	mkdir -p $(prefix)/release/var/run/lirc
 	cp -f $(buildprefix)/root/sbin/flashcp $(prefix)/release/sbin
 	cp -f $(buildprefix)/root/sbin/flash_* $(prefix)/release/sbin

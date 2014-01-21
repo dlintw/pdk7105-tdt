@@ -189,7 +189,7 @@ libtuxtxt.git;git://openpli.git.sourceforge.net/gitroot/openpli/tuxtxt;aee777a95
 enigma2-openpli-plugins-enigma2.git;git://openpli.git.sourceforge.net/gitroot/openpli/plugins-enigma2
 e2openplugin-OpenWebif.git;git://github.com/E2OpenPlugins/e2openplugin-OpenWebif
 hotplug-e2-helper.git;git://git.code.sf.net/p/openpli/hotplug-e2-helper
-libdreamdvd.git;git://github.com/mirakels/libdreamdvd
+libdreamdvd.git;git://github.com/mirakels/libdreamdvd;f67ca064a4f20acbd8641551b74c5d22b4789dbe
 
 #
 # EXTERNAL_LCD

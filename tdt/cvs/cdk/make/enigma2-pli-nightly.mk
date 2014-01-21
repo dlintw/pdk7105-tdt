@@ -60,7 +60,7 @@ $(DEPDIR)/enigma2-pli-nightly.do_prepare:
 $(appsdir)/enigma2-pli-nightly/config.status: \
 		bootstrap opkg ethtool libfreetype libexpat libpng libjpeg libgif libfribidi libid3tag libmad libsigc libreadline \
 		libdvbsipp python libxml2 libxslt elementtree zope_interface twisted pyopenssl pythonwifi pilimaging pyusb pycrypto \
-		lxml libxmlccwrap ncurses-dev libdreamdvd2 tuxtxt32bpp sdparm hotplug_e2 \
+		lxml libxmlccwrap ncurses-dev libdreamdvd2 tuxtxt32bpp sdparm hotplug_e2 ffmpeg\
 		$(MEDIAFW_DEP) $(EXTERNALLCD_DEP)
 	export PATH=$(hostprefix)/bin:$(PATH) && \
 	cd $(appsdir)/enigma2-nightly && \
