@@ -8,6 +8,8 @@
 release_neutrino_common_utils:
 #	remove the slink to busybox
 	rm -f $(prefix)/release_neutrino/sbin/halt
+	cp -f $(targetprefix)/sbin/modinfo $(prefix)/release/sbin/
+	cp -f $(targetprefix)/sbin/depmod $(prefix)/release/sbin/
 	cp -f $(targetprefix)/sbin/halt $(prefix)/release_neutrino/sbin/
 	cp -f $(targetprefix)/etc/init.d/umountfs $(prefix)/release_neutrino/etc/init.d/
 	cp -f $(targetprefix)/etc/init.d/sendsigs $(prefix)/release_neutrino/etc/init.d/
@@ -249,7 +251,7 @@ release_neutrino_spark: release_neutrino_common_utils
 # release_spark7162
 #
 release_neutrino_spark7162: release_neutrino_common_utils
-	echo "spark7162" > $(prefix)/release_neutrino/etc/hostname
+	echo "NextVOD" > $(prefix)/release_neutrino/etc/hostname
 	cp $(buildprefix)/root/release/halt_spark7162 $(prefix)/release_neutrino/etc/init.d/halt
 	chmod 755 $(prefix)/release_neutrino/etc/init.d/halt
 	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontcontroller/aotom_spark/aotom.ko $(prefix)/release_neutrino/lib/modules/
