@@ -440,6 +440,7 @@ $(DEPDIR)/libmng: bootstrap libjpeg lcms @DEPENDS_libmng@
 	cd @DIR_libmng@ && \
 		cat unmaintained/autogen.sh | tr -d \\r > autogen.sh && chmod 755 autogen.sh && \
 		[ ! -x ./configure ] && ./autogen.sh --help || true && \
+		autoreconf --verbose --force --install -I$(hostprefix)/share/aclocal && \
 		$(BUILDENV) \
 		./configure \
 			--build=$(build) \
