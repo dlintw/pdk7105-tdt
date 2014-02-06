@@ -543,6 +543,7 @@ endif
 	sed -i "s/<home>FirstPage<\/home>/<home>PreviousMenu<\/home>/g" $(prefix)/release/usr/share/xbmc/system/keymaps/keyboard.xml
 #	cp -a $(targetprefix)/usr/share/xbmc/system/keymaps/remote.xml $(prefix)/release/usr/share/xbmc/system/keymaps/
 	cp $(buildprefix)/root/release/keymap_xbmc.xml $(prefix)/release/usr/share/xbmc/system/keymaps/duckbox.xml
+	cp -ra $(buildprefix)/root/.xbmc $(prefix)/release/root
 
 #
 # The main target depends on the model.

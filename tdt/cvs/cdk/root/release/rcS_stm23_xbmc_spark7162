@@ -22,6 +22,21 @@ if [ -e /var/etc/.firstboot ]; then
    mknod -m 444 /dev/random c 1 8
    mknod -m 444 /dev/urandom c 1 9
    chown -v root:tty /dev/{console,ptmx,tty}
+   
+   echo "Creating swap file..."
+   if [ -e /swapfile ]; then
+      rm /swapfile
+   fi
+   
+   dd if=/dev/zero of=/swapfile bs=1M count=128
+   chmod 600 /swapfile
+   mkswap /swapfile
+   swapon /swapfile
+   
+   if [ ! -e /dev/lirc0 ]; then
+      ln -s /dev/lirc /dev/lirc0
+   fi
+   
    rm /var/etc/.firstboot
    touch /dev/.devfsd
 fi
@@ -35,30 +50,43 @@ insmod $MODDIR/e2_proc.ko
 
 if [ ! -e /var/etc/.firstboot ]; then
 
-   echo "Starting DEBUG Interface"
+   echo "Starting DEBUG interface..."
    /etc/init.d/mountall start
    /etc/init.d/hostname start
+   
+   if [ ! -e /swapfile ]; then
+      echo "Warning: Swapfile not found!"
+      echo "Creating swap file..."
+      dd if=/dev/zero of=/swapfile bs=1M count=128
+      chmod 600 /swapfile
+      mkswap /swapfile
+      swapon /swapfile
+   fi
 
-   echo "starting telnetd"
+   echo "Starting telnetd..."
    /usr/sbin/telnetd -l /bin/autologin
 
-   echo "init stmfb"
+   echo "Initializing stmfb..."
    insmod $MODDIR/stmcore-display-sti7105.ko
-   insmod $MODDIR/stmfb.ko display0=1920x1080-32@60:12m:24m:pal:yuv:yuv;# display1=720x576-16@50:1m:pal:cvbs;
+   insmod $MODDIR/stmfb.ko display0=1920x1080-32@60:12m:24m:ntsc-m:yuv:yuv;# display1=720x480-32@60:1m:ntsc-m:cvbs;
 
-   echo "LOADING MODULES"   
+   echo "Loading modules..."   
    echo "LOAD" > /dev/vfd
 
    if [ ! -e /boot/audio.elf ]; then
-      echo "FW MISSING!!!"
+      echo "Error: Audio firmware not found!"
    fi
+   
+   if [ ! -e /boot/video.elf ]; then
+      echo "Error: Video firmware not found!"
+   fi  
 
-   echo "load a firmware"
+   echo "Loading audio firmware..."
    /bin/ustslave /dev/st231-1 /boot/audio.elf
-   echo "load v firmware"
+   echo "Loading video firmware..."
    /bin/ustslave /dev/st231-0 /boot/video.elf
 
-   echo "init embx"
+   echo "Initializing embx..."
    insmod $MODDIR/embxshell.ko
    insmod $MODDIR/embxmailbox.ko mailbox0=0xfe211000:136:set2 mailbox1=0xfe212000:0 ;
    insmod $MODDIR/embxshm.ko mailbox0=shm:0:7:0x60000000:0:256:256:0:512:0x40000000:0x10000000
@@ -68,12 +96,12 @@ if [ ! -e /var/etc/.firstboot ]; then
    #insmod $MODDIR/embxshm.ko mailbox0=TransportVideo0:0:3:0x00000000:0:16:16:0:256:0x40000000:0x40000000 mailbox1=TransportAudio1:0:5:0x00000000:0:16:16:0:256:0x40000000:0x40000000
    #insmod $MODDIR/mme_host.ko transport0=TransportVideo0 transport1=TransportAudio1*/
 
-   echo "init AVS"
+   echo "Initializing AVS..."
    insmod $MODDIR/avs.ko type=avs_pio
 
    player=`cat /proc/stb/player/version`
    player=`cat /proc/stb/player/version | awk '{ print substr( $0, length($0) - 2, length($0) ) }'`
-   echo "init player $player"
+   echo "Initializing player $player..."
 
    insmod $MODDIR/mmelog.ko
    insmod $MODDIR/ksound.ko
@@ -113,7 +141,7 @@ if [ ! -e /var/etc/.firstboot ]; then
    insmod $MODDIR/bpamem.ko
    mknod /dev/bpamem c 153 0 
 
-   echo "init lircd"
+   echo "Initializing lircd..."
    /usr/bin/lircd
 
    mknod /dev/rc c 147 1 
@@ -130,7 +158,7 @@ if [ ! -e /var/etc/.firstboot ]; then
    /etc/init.d/mountall start
    /etc/init.d/hostname start
 
-   echo "starting telnetd"
+   echo "Starting vsftpd..."
    /usr/sbin/telnetd -l /bin/autologin
    /etc/init.d/vsftpd start
    /usr/sbin/inetd
@@ -157,12 +185,11 @@ if [ ! -e /var/etc/.firstboot ]; then
       fi 
    fi
 
-   echo "LOADING xbmc" > /dev/vfd
-   echo "LOADING xbmc"
+   echo "Loading XBMC..." > /dev/vfd
+   echo "Loading XBMC..."
 
    /etc/init.d/xbmc_userdata
-/usr/lib/xbmc/xbmc.bin 
-
+   /usr/lib/xbmc/xbmc.bin 
    
 fi
 
