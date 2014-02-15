@@ -64,7 +64,9 @@ $(DEPDIR)/xbmc-nightly.do_prepare:
 	touch $@
 
 #endable webserver else httpapihandler will fail
-$(appsdir)/xbmc-nightly/config.status: bootstrap opkg libboost directfb libstgles libass libmpeg2 libmad libjpeg libsamplerate libogg libvorbis libmodplug libcurl libflac bzip2 tiff lzo libfribidi libfreetype sqlite libpng libpcre libcdio jasper yajl libmicrohttpd tinyxml python gstreamer gst_plugins_dvbmediasink libexpat taglib
+$(appsdir)/xbmc-nightly/config.status: bootstrap opkg libboost directfb libstgles libass libmpeg2 libmad libjpeg libsamplerate libogg libvorbis \
+				       libmodplug libcurl libflac bzip2 tiff lzo libfribidi libfreetype sqlite libpng libpcre libcdio jasper yajl \
+				       libmicrohttpd tinyxml python gstreamer gst_plugins_dvbmediasink libexpat taglib avahi libplist lirc
 	cd $(appsdir)/xbmc-nightly && \
 		$(BUILDENV) \
 		./bootstrap && \
@@ -93,11 +95,11 @@ $(appsdir)/xbmc-nightly/config.status: bootstrap opkg libboost directfb libstgle
 			--disable-projectm \
 			--disable-goom \
 			--disable-afpclient \
-			--disable-airplay \
+			--enable-airplay \
 			--disable-airtunes \
 			--disable-dvdcss \
 			--disable-hal \
-			--disable-avahi \
+			--enable-avahi \
 			--disable-optical-drive \
 			--disable-libbluray \
 			--disable-texturepacker \

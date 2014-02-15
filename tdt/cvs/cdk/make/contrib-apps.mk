@@ -698,7 +698,7 @@ $(DEPDIR)/hotplug_e2: bootstrap @DEPENDS_hotplug_e2@
 	[ -d "$(archivedir)/hotplug-e2-helper.git" ] && \
 	(cd $(archivedir)/hotplug-e2-helper.git; git pull; cd "$(buildprefix)";); \
 	cd @DIR_hotplug_e2@ && \
-		./autogen.sh &&\
+		./autogen.sh && \
 		$(BUILDENV) \
 		./configure \
 			--build=$(build) \
@@ -723,3 +723,58 @@ $(DEPDIR)/shairport: bootstrap openssl openssl-dev howl libalsa @DEPENDS_shairpo
 	@DISTCLEANUP_shairport@
 	touch $@
 
+#
+# dbus
+#
+$(DEPDIR)/dbus: bootstrap libexpat @DEPENDS_dbus@
+	@PREPARE_dbus@
+	cd @DIR_dbus@ && \
+		$(BUILDENV) \
+		CFLAGS="$(TARGET_CFLAGS) -Wno-cast-align" \
+		./autogen.sh \
+			--build=$(build) \
+			--host=$(target) \
+			--without-x \
+			--prefix=/usr \
+			--sysconfdir=/etc \
+			--localstatedir=/var \
+			--with-console-auth-dir=/run/console/ \
+			--without-systemdsystemunitdir \
+			--disable-systemd \
+			--disable-static && \
+		$(MAKE) all && \
+		@INSTALL_dbus@
+	@DISTCLEANUP_dbus@
+	touch $@
+
+#
+# avahi
+#
+$(DEPDIR)/avahi: bootstrap libexpat libdaemon dbus @DEPENDS_avahi@
+	@PREPARE_avahi@
+	cd @DIR_avahi@ && \
+		sed -i 's/\(CFLAGS=.*\)-Werror \(.*\)/\1\2/' configure && \
+		sed -i -e 's/-DG_DISABLE_DEPRECATED=1//' -e '/-DGDK_DISABLE_DEPRECATED/d' avahi-ui/Makefile.in && \
+		$(BUILDENV) \
+		./configure \
+			--build=$(build) \
+			--host=$(target) \
+			--prefix=/usr \
+			--sysconfdir=/etc \
+			--localstatedir=/var \
+			--disable-static \
+			--disable-mono \
+			--disable-monodoc \
+			--disable-python \
+			--disable-gdbm \
+			--disable-gtk \
+			--disable-gtk3 \
+			--disable-qt3 \
+			--disable-qt4 \
+			--disable-nls \
+			--enable-core-docs \
+			--with-distro=none && \
+		$(MAKE)	all && \
+		@INSTALL_avahi@
+	@DISTCLEANUP_avahi@
+	touch $@

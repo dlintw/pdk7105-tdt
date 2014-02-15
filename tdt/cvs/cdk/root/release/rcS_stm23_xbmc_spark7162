@@ -23,19 +23,9 @@ if [ -e /var/etc/.firstboot ]; then
    mknod -m 444 /dev/urandom c 1 9
    chown -v root:tty /dev/{console,ptmx,tty}
    
-   echo "Creating swap file..."
-   if [ -e /swapfile ]; then
-      rm /swapfile
-   fi
-   
-   dd if=/dev/zero of=/swapfile bs=1M count=128
-   chmod 600 /swapfile
-   mkswap /swapfile
-   swapon /swapfile
-   
-   if [ ! -e /dev/lirc0 ]; then
-      ln -s /dev/lirc /dev/lirc0
-   fi
+   echo "Configuring Avahi..."
+   addgroup --system avahi
+   adduser --system --no-create-home --ingroup avahi avahi
    
    rm /var/etc/.firstboot
    touch /dev/.devfsd
@@ -53,22 +43,13 @@ if [ ! -e /var/etc/.firstboot ]; then
    echo "Starting DEBUG interface..."
    /etc/init.d/mountall start
    /etc/init.d/hostname start
-   
-   if [ ! -e /swapfile ]; then
-      echo "Warning: Swapfile not found!"
-      echo "Creating swap file..."
-      dd if=/dev/zero of=/swapfile bs=1M count=128
-      chmod 600 /swapfile
-      mkswap /swapfile
-      swapon /swapfile
-   fi
 
    echo "Starting telnetd..."
    /usr/sbin/telnetd -l /bin/autologin
 
    echo "Initializing stmfb..."
    insmod $MODDIR/stmcore-display-sti7105.ko
-   insmod $MODDIR/stmfb.ko display0=1920x1080-32@60:12m:24m:ntsc-m:yuv:yuv;# display1=720x480-32@60:1m:ntsc-m:cvbs;
+   insmod $MODDIR/stmfb.ko display0=1920x1080-32@60:24m:12m:ntsc-m:yuv:yuv;# display1=720x480-32@60:1m:ntsc-m:cvbs;
 
    echo "Loading modules..."   
    echo "LOAD" > /dev/vfd
@@ -184,12 +165,15 @@ if [ ! -e /var/etc/.firstboot ]; then
 	 /etc/init.d/networking start 
       fi 
    fi
+   
+   echo "Starting the Avahi Daemon..."
+   /etc/init.d/avahi-daemon start   
 
-   echo "Loading XBMC..." > /dev/vfd
+#   echo "Loading XBMC..." > /dev/vfd
    echo "Loading XBMC..."
 
    /etc/init.d/xbmc_userdata
-   /usr/lib/xbmc/xbmc.bin 
+   /usr/lib/xbmc/xbmc.bin&
    
 fi
 

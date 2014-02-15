@@ -17,6 +17,33 @@ release_xbmc_common_utils:
 	chmod 755 $(prefix)/release/etc/init.d/umountfs
 	chmod 755 $(prefix)/release/etc/init.d/rc
 	chmod 755 $(prefix)/release/etc/init.d/sendsigs
+
+	cp -dp $(targetprefix)/usr/sbin/avahi-autoipd $(prefix)/release/usr/sbin/
+	cp -dp $(targetprefix)/usr/sbin/avahi-daemon $(prefix)/release/usr/sbin/
+	cp -dp $(targetprefix)/usr/sbin/avahi-dnsconfd $(prefix)/release/usr/sbin/
+	cp -aR $(targetprefix)/etc/avahi $(prefix)/release/etc/
+	cp -dp $(buildprefix)/root/etc/init.d/avahi-daemon $(prefix)/release/etc/init.d/
+	
+#	cp -dp $(targetprefix)/usr/bin/dbus-daemon $(prefix)/release/usr/bin/
+#	cp -dp $(targetprefix)/usr/bin/dbus-uuidgen $(prefix)/release/usr/bin/
+#	cp -dp $(targetprefix)/usr/bin/dbus-cleanup-sockets $(prefix)/release/usr/bin/
+#	cp -dp $(targetprefix)/usr/bin/dbus-launch $(prefix)/release/usr/bin/
+#	cp -dp $(targetprefix)/usr/bin/dbus-monitor $(prefix)/release/usr/bin/
+#	cp -dp $(targetprefix)/usr/bin/dbus-run-session $(prefix)/release/usr/bin/
+#	cp -dp $(targetprefix)/usr/bin/dbus-send $(prefix)/release/usr/bin/
+	cp -aR $(targetprefix)/etc/dbus-1 $(prefix)/release/etc/
+#	cp -dp $(buildprefix)/root/etc/init.d/dbus $(prefix)/release/etc/init.d/
+
+	cp -p $(targetprefix)/usr/bin/irw $(prefix)/release/usr/bin/
+	cp -p $(targetprefix)/usr/bin/irrecord $(prefix)/release/usr/bin/
+	cp -p $(targetprefix)/usr/bin/irexec $(prefix)/release/usr/bin/
+	cp -p $(targetprefix)/usr/bin/ircat $(prefix)/release/usr/bin/
+	cp -p $(targetprefix)/usr/sbin/lircd $(prefix)/release/usr/sbin/
+	cp -dp $(buildprefix)/root/etc/init.d/lircd $(prefix)/release/etc/init.d/
+	mkdir -p $(prefix)/release/var/run/lirc
+	
+	cp -dp $(buildprefix)/root/etc/init.d/ntpd $(prefix)/release/etc/init.d/
+	
 	mkdir -p $(prefix)/release/etc/rc.d/rc0.d
 	ln -s ../init.d $(prefix)/release/etc/rc.d
 	ln -fs halt $(prefix)/release/sbin/reboot
@@ -24,6 +51,11 @@ release_xbmc_common_utils:
 	ln -s ../init.d/sendsigs $(prefix)/release/etc/rc.d/rc0.d/S20sendsigs
 	ln -s ../init.d/umountfs $(prefix)/release/etc/rc.d/rc0.d/S40umountfs
 	ln -s ../init.d/halt $(prefix)/release/etc/rc.d/rc0.d/S90halt
+	mkdir -p $(prefix)/release/etc/rc.d/rc3.d
+	ln -s ../init.d/udhcpc $(prefix)/release/etc/rc.d/rc3.d/S10udhcpc
+	ln -s ../init.d/lircd $(prefix)/release/etc/rc.d/rc3.d/S20lircd
+	ln -s ../init.d/ntpd $(prefix)/release/etc/rc.d/rc3.d/S23ntpd
+	ln -s ../init.d/avahi-daemon $(prefix)/release/etc/rc.d/rc3.d/S50avahi-daemon
 	mkdir -p $(prefix)/release/etc/rc.d/rc6.d
 	ln -s ../init.d/sendsigs $(prefix)/release/etc/rc.d/rc6.d/S20sendsigs
 	ln -s ../init.d/umountfs $(prefix)/release/etc/rc.d/rc6.d/S40umountfs
@@ -145,9 +177,8 @@ release_xbmc_spark7162: release_xbmc_common_utils
 	rm -f $(prefix)/release/bin/evremote
 	rm -f $(prefix)/release/bin/gotosleep
 	rm -f $(prefix)/release/bin/vdstandby
-	cp -dp $(buildprefix)/root/etc/lircd_spark7162.conf $(prefix)/release/etc/lircd.conf
-	cp -p $(buildprefix)/root/usr/bin/lircd $(prefix)/release/usr/bin/
-	mkdir -p $(prefix)/release/var/run/lirc
+#	cp -dp $(buildprefix)/root/etc/lircd_spark7162.conf $(prefix)/release/etc/lircd.conf
+	cp -dp $(buildprefix)/root/etc/lircd_nextvod.conf $(prefix)/release/etc/lircd.conf
 	cp -f $(buildprefix)/root/sbin/flashcp $(prefix)/release/sbin
 	cp -f $(buildprefix)/root/sbin/flash_* $(prefix)/release/sbin
 	cp -f $(buildprefix)/root/sbin/nand* $(prefix)/release/sbin
@@ -385,10 +416,10 @@ endif
 	rm -rf $(prefix)/release$(PYTHON_DIR)/site-packages/zope.interface-3.3.0-py2.6.egg-info
 	rm -rf $(prefix)/release$(PYTHON_DIR)/site-packages/Twisted-8.2.0-py2.6.egg-info
 	rm -rf $(prefix)/release$(PYTHON_DIR)/site-packages/twisted/{test,conch,mail,manhole,names,news,trial,words,application,enterprise,flow,lore,pair,runner,scripts,tap,topfiles}
-	rm -rf $(prefix)/release$(PYTHON_DIR)/{bsddb,compiler,config,ctypes,curses,distutils,email,plat-linux3,test}
+	rm -rf $(prefix)/release$(PYTHON_DIR)/{bsddb,compiler,ctypes,curses,distutils,email,plat-linux3,test}
 
 #
-# Dont remove pyo files, remove pyc instead
+# Don't remove pyo files, remove pyc instead
 #
 	find $(prefix)/release$(PYTHON_DIR)/ -name '*.pyc' -exec rm -f {} \;
 	find $(prefix)/release$(PYTHON_DIR)/ -name '*.a' -exec rm -f {} \;

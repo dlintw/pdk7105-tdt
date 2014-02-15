@@ -149,6 +149,14 @@ taglib-1.8.tar.gz;https://github.com/downloads/taglib/taglib
 libnfs.git;git://github.com/sahlberg/libnfs.git;c0ebf57b212ffefe83e2a50358499f68e7289e93
 
 #
+# AirPlay
+#
+avahi-0.6.31.tar.gz;http://www.avahi.org/download
+dbus-dbus-1.8.tar.gz;http://cgit.freedesktop.org/dbus/dbus/snapshot
+libdaemon-0.14.tar.gz;http://0pointer.de/lennart/projects/libdaemon
+libplist-1.10.tar.gz;http://cgit.sukimashita.com/libplist.git/snapshot
+
+#
 # PYTHON
 #
 elementtree-1.2.6-20050316.tar.gz;http://effbot.org/media/downloads
