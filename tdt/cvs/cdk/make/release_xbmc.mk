@@ -333,8 +333,8 @@ endif
 	[ -e $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/wireless/rtl871x/8712u.ko ] && cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/wireless/rtl871x/8712u.ko $(prefix)/release/lib/modules || true
 	[ -e $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/wireless/rtl8192cu/8192cu.ko ] && cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/wireless/rtl8192cu/8192cu.ko $(prefix)/release/lib/modules || true
 
-	cp $(kernelprefix)/linux-sh4/arch/sh/boot/uImage $(prefix)/release/boot/vmlunux.ub
-	cp $(kernelprefix)/linux-sh4/arch/sh/boot/uImage $(prefix)/release/vmlunux.ub
+	cp $(kernelprefix)/linux-sh4/arch/sh/boot/uImage $(prefix)/release/boot/vmlinux.ub
+	cp $(kernelprefix)/linux-sh4/arch/sh/boot/uImage $(prefix)/release/vmlinux.ub
 
 #
 # lib usr/lib
