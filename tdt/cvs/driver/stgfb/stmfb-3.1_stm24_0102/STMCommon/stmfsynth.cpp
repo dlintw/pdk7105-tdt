@@ -2,7 +2,7 @@
  *
  * File: STMCommon/stmfsynth.cpp
  * Copyright (c) 2005, 2007, 2008 STMicroelectronics Limited.
- *
+ * 
  * This file is subject to the terms and conditions of the GNU General Public
  * License.  See the file COPYING in the main directory of this archive for
  * more details.
@@ -26,15 +26,8 @@ CSTmFSynth::CSTmFSynth(CDisplayDevice *pDev, ULONG ulRegOffset)
   m_pDevRegs = (ULONG*)pDev->GetCtrlRegisterBase();
   m_ulFSynthOffset = ulRegOffset;
 
-#if  defined(__TDT__) && !defined(SPARK) && !defined(SPARK7162)
-#ifdef USE_EXT_CLK
-  m_refClock    = STM_CLOCK_REF_27MHZ;
-#else
   m_refClock    = STM_CLOCK_REF_30MHZ;
-#endif
-#else
-  m_refClock    = STM_CLOCK_REF_30MHZ;
-#endif
+
   m_refError    = 0;
   m_adjustment  = 0;
   m_divider     = 1;
@@ -309,7 +302,7 @@ bool CSTmFSynth::SetAdjustment(int ppm)
 
     if(ppm< -500 || ppm > 500)
       return false;
-
+      
     ULONG f = AdjustFrequency(m_NominalOutputFrequency*m_divider,ppm);
     if(!SolveFsynthEqn(f, &timing))
     {
@@ -322,7 +315,7 @@ bool CSTmFSynth::SetAdjustment(int ppm)
     ProgramClock();
     return true;
   }
-
+  
   return false;
 }
 
@@ -354,7 +347,7 @@ void CSTmFSynthType1::ProgramClock(void)
 #define FSYNTH_TYPE2_CFG_SDIV_MASK    (0x7 << FSYNTH_TYPE2_CFG_SDIV_SHIFT)
 #define FSYNTH_TYPE2_CFG_EN_PRG       (1L << 21)
 #define FSYNTH_TYPE2_CFG_SELCLKOUT    (1L << 25)
-#define FSYNTH_TYPE2_CFG_SDIV3        (1L << 27)
+#define FSYNTH_TYPE2_CFG_SDIV3        (1L << 27) 
 
 void CSTmFSynthType2::ProgramClock(void)
 {
