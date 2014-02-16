@@ -2302,6 +2302,7 @@ $(DEPDIR)/libnfs: bootstrap @DEPENDS_libnfs@
 			--prefix=/usr && \
 		$(MAKE) all
 		@INSTALL_libnfs@
+	cp -r @DIR_libnfs@/include/nfsc $(hostprefix)/../cdkroot/usr/include/
 	@DISTCLEANUP_libnfs@
 	touch $@
 
