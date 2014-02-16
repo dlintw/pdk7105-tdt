@@ -199,7 +199,7 @@ release_xbmc_base:
 	cp -dp $(targetprefix)/etc/init.d/portmap $(prefix)/release/etc/init.d/ && \
 	cp -dp $(buildprefix)/root/etc/init.d/udhcpc $(prefix)/release/etc/init.d/ && \
 	cp -dp $(targetprefix)/sbin/MAKEDEV $(prefix)/release/sbin/MAKEDEV && \
-	cp -f $(buildprefix)/root/release/makedev $(prefix)/release/etc/init.d/ && \
+	cp -f $(buildprefix)/root/etc/init.d/makedev $(prefix)/release/etc/init.d/ && \
 	cp $(targetprefix)/boot/audio.elf $(prefix)/release/boot/audio.elf && \
 	cp -a $(targetprefix)/dev/* $(prefix)/release/dev/ && \
 	cp -dp $(targetprefix)/etc/fstab $(prefix)/release/etc/ && \
@@ -232,10 +232,10 @@ release_xbmc_base:
 	echo "576i50" > $(prefix)/release/etc/videomode && \
 	cp $(buildprefix)/root/release/rcS_stm23_xbmc$(if $(TF7700),_$(TF7700))$(if $(HL101),_$(HL101))$(if $(VIP1_V2),_$(VIP1_V2))$(if $(VIP2_V1),_$(VIP2_V1))$(if $(UFS912),_$(UFS912))$(if $(UFS913),_$(UFS913))$(if $(SPARK),_$(SPARK))$(if $(SPARK7162),_$(SPARK7162))$(if $(UFS922),_$(UFS922))$(if $(OCTAGON1008),_$(OCTAGON1008))$(if $(FORTIS_HDBOX),_$(FORTIS_HDBOX))$(if $(ATEVIO7500),_$(ATEVIO7500))$(if $(HS7810A),_$(HS7810A))$(if $(HS7110),_$(HS7110))$(if $(WHITEBOX),_$(WHITEBOX))$(if $(CUBEREVO),_$(CUBEREVO))$(if $(CUBEREVO_MINI),_$(CUBEREVO_MINI))$(if $(CUBEREVO_MINI2),_$(CUBEREVO_MINI2))$(if $(CUBEREVO_MINI_FTA),_$(CUBEREVO_MINI_FTA))$(if $(CUBEREVO_250HD),_$(CUBEREVO_250HD))$(if $(CUBEREVO_2000HD),_$(CUBEREVO_2000HD))$(if $(CUBEREVO_9500HD),_$(CUBEREVO_9500HD))$(if $(IPBOX9900),_$(IPBOX9900))$(if $(IPBOX99),_$(IPBOX99))$(if $(IPBOX55),_$(IPBOX55))$(if $(ADB_BOX),_$(ADB_BOX)) $(prefix)/release/etc/init.d/rcS && \
 	chmod 755 $(prefix)/release/etc/init.d/rcS && \
-	cp $(buildprefix)/root/release/mountvirtfs $(prefix)/release/etc/init.d/ && \
+	cp $(buildprefix)/root/etc/init.d/mountvirtfs $(prefix)/release/etc/init.d/ && \
 	cp $(buildprefix)/root/release/mme_check $(prefix)/release/etc/init.d/ && \
-	cp $(buildprefix)/root/release/mountall $(prefix)/release/etc/init.d/ && \
-	cp $(buildprefix)/root/release/hostname $(prefix)/release/etc/init.d/ && \
+	cp $(buildprefix)/root/etc/init.d/mountall $(prefix)/release/etc/init.d/ && \
+	cp $(buildprefix)/root/etc/init.d/hostname $(prefix)/release/etc/init.d/ && \
 	cp $(buildprefix)/root/release/vsftpd $(prefix)/release/etc/init.d/ && \
 	cp $(buildprefix)/root/release/xbmc_userdata $(prefix)/release/etc/init.d/ && \
 	cp -dp $(targetprefix)/usr/sbin/vsftpd $(prefix)/release/usr/bin/ && \
