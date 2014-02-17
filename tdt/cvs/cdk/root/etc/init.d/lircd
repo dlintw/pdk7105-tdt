@@ -2,7 +2,7 @@
 #
 # This is an init script for Debian Sid
 # Copy it to /etc/init.d/lircd and type
-# > update-rc.d lirc defaults 20
+# > update-rc.d lircd defaults 20
 #
 
 test -f /usr/sbin/lircd || exit 0

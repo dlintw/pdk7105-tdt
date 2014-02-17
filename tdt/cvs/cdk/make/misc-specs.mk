@@ -1,7 +1,7 @@
 #Trick: ich haue mal das kopieren von /boot mal hier rein. ist fuer m82 und m84
 $(DEPDIR)/boot-elf:
 	$(INSTALL_DIR) $(targetprefix)/boot
-	for elf in video_7109.elf video_7100.elf video_7111.elf video_7105.elf audio.elf audio_7111.elf audio_7105.elf \
+	for elf in video_7109.elf video_7100.elf video_7111.elf video_7105.elf audio.elf audio_7111.elf audio_7105.elf audio_dts_7105.elf \
 	;do \
 		if [ -e $(buildprefix)/root/boot/$$elf ] ; then \
 			cp $(buildprefix)/root/boot/$$elf $(targetprefix)/boot/ ; \
@@ -72,21 +72,24 @@ $(DEPDIR)/misc-e2:
 # SPLASHUTILS
 #
 SPLASHUTILS := splashutils
-SPLASHUTILS_VERSION := 1.5.4.3-7
+SPLASHUTILS_VERSION := 1.5.4.3-10
 SPLASHUTILS_SPEC := stm-target-$(SPLASHUTILS).spec
-SPLASHUTILS_SPEC_PATCH :=
-SPLASHUTILS_PATCHES :=
+SPLASHUTILS_SPEC_PATCH := stm-target-splashutils-1.5.4.3-10.spec.patch
+SPLASHUTILS_PATCHES1:= stm-target-splashutils-1.5.4.3-10_cross_compile.patch
+SPLASHUTILS_PATCHES2:= stm-target-splashutils-1.5.4.3-10_make_install.patch
 
 SPLASHUTILS_RPM := RPMS/sh4/$(STLINUX)-sh4-$(SPLASHUTILS)-$(SPLASHUTILS_VERSION).sh4.rpm
 
 $(SPLASHUTILS_RPM): \
 		$(if $(SPLASHUTILS_SPEC_PATCH),Patches/$(SPLASHUTILS_SPEC_PATCH)) \
-		$(if $(SPLASHUTILS_PATCHES),$(SPLASHUTILS_PATCHES:%=Patches/%)) \
+		$(if $(SPLASHUTILS_PATCHES1),$(SPLASHUTILS_PATCHES1:%=Patches/%)) \
+		$(if $(SPLASHUTILS_PATCHES2),$(SPLASHUTILS_PATCHES2:%=Patches/%)) \
 		libjpeg libmng libfreetype libpng \
 		$(archivedir)/$(STLINUX)-target-$(SPLASHUTILS)-$(SPLASHUTILS_VERSION).src.rpm
 	rpm $(DRPM) --nosignature -Uhv $(lastword $^) && \
 	$(if $(SPLASHUTILS_SPEC_PATCH),( cd SPECS && patch -p1 $(SPLASHUTILS_SPEC) < $(buildprefix)/Patches/$(SPLASHUTILS_SPEC_PATCH) ) &&) \
-	$(if $(SPLASHUTILS_PATCHES),cp $(SPLASHUTILS_PATCHES:%=Patches/%) SOURCES/ &&) \
+	$(if $(SPLASHUTILS_PATCHES1),cp $(SPLASHUTILS_PATCHES1:%=Patches/%) SOURCES/ &&) \
+	$(if $(SPLASHUTILS_PATCHES2),cp $(SPLASHUTILS_PATCHES2:%=Patches/%) SOURCES/ &&) \
 	export PATH=$(hostprefix)/bin:$(PATH) && \
 	export PKG_CONFIG_PATH=$(targetprefix)/usr/lib/pkgconfig && \
 	rpmbuild $(DRPMBUILD) -bb -v --clean --nodeps --target=sh4-linux SPECS/$(SPLASHUTILS_SPEC)
@@ -131,7 +134,7 @@ $(DEPDIR)/$(STSLAVE): $(STSLAVE_RPM)
 #
 OPENSSL := openssl
 OPENSSL_DEV := openssl-dev
-OPENSSL_VERSION := 0.9.8l-16
+OPENSSL_VERSION := 1.0.1e-29
 OPENSSL_SPEC := stm-target-$(OPENSSL).spec
 OPENSSL_SPEC_PATCH :=
 OPENSSL_PATCHES :=

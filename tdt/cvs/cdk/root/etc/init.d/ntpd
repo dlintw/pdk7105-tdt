@@ -2,19 +2,19 @@
 #
 # This is an init script for Debian Sid
 # Copy it to /etc/init.d/ntpd and type
-# > update-rc.d lirc defaults 20
+# > update-rc.d ntpd defaults 23
 #
 
 test -f /usr/sbin/ntpd || exit 0
 
 case "$1" in
   start)
-    echo -n "Starting ntp daemon: ntpd"
+    echo -n "Starting NTP daemon: ntpd"
     start-stop-daemon --start --quiet --exec /usr/sbin/ntpd -- -q -p tw.pool.ntp.org
     echo "."
     ;;
   stop)
-    echo -n "Stopping ntp daemon: ntpd"
+    echo -n "Stopping NTP daemon: ntpd"
     start-stop-daemon --stop --quiet --exec /usr/sbin/ntpd
     echo "."
     ;;
@@ -22,10 +22,10 @@ case "$1" in
     start-stop-daemon --stop --quiet --signal 1 --exec /usr/sbin/ntpd
     ;;
   restart)
-    echo -n "Stopping ntp daemon: ntpd"
+    echo -n "Stopping NTP daemon: ntpd"
     start-stop-daemon --stop --quiet --exec /usr/sbin/ntpd
     sleep 1
-    echo -n "Starting ntp daemon: ntpd"
+    echo -n "Starting NTP daemon: ntpd"
     start-stop-daemon --start --quiet --exec /usr/sbin/ntpd -- -q -p tw.pool.ntp.org
     echo "."
     ;;

@@ -8,9 +8,9 @@
 release_xbmc_common_utils:
 #	remove the slink to busybox
 	rm -f $(prefix)/release/sbin/halt
-	cp -f $(targetprefix)/sbin/halt $(prefix)/release/sbin/
-	cp -f $(targetprefix)/sbin/modinfo $(prefix)/release/sbin/
-	cp -f $(targetprefix)/sbin/depmod $(prefix)/release/sbin/
+	cp -f $(targetprefix)/sbin/halt		$(prefix)/release/sbin/
+	cp -f $(targetprefix)/sbin/modinfo	$(prefix)/release/sbin/
+	cp -f $(targetprefix)/sbin/depmod	$(prefix)/release/sbin/
 	cp $(buildprefix)/root/release/umountfs $(prefix)/release/etc/init.d/
 	cp $(buildprefix)/root/release/rc $(prefix)/release/etc/init.d/
 	cp $(buildprefix)/root/release/sendsigs $(prefix)/release/etc/init.d/
@@ -18,48 +18,61 @@ release_xbmc_common_utils:
 	chmod 755 $(prefix)/release/etc/init.d/rc
 	chmod 755 $(prefix)/release/etc/init.d/sendsigs
 
-	cp -dp $(targetprefix)/usr/sbin/avahi-autoipd $(prefix)/release/usr/sbin/
-	cp -dp $(targetprefix)/usr/sbin/avahi-daemon $(prefix)/release/usr/sbin/
-	cp -dp $(targetprefix)/usr/sbin/avahi-dnsconfd $(prefix)/release/usr/sbin/
+	cp -f $(targetprefix)/usr/sbin/avahi-autoipd $(prefix)/release/usr/sbin/
+	cp -f $(targetprefix)/usr/sbin/avahi-daemon $(prefix)/release/usr/sbin/
+	cp -f $(targetprefix)/usr/sbin/avahi-dnsconfd $(prefix)/release/usr/sbin/
 	cp -aR $(targetprefix)/etc/avahi $(prefix)/release/etc/
-	cp -dp $(buildprefix)/root/etc/init.d/avahi-daemon $(prefix)/release/etc/init.d/
+	cp -f $(buildprefix)/root/etc/init.d/avahi-daemon $(prefix)/release/etc/init.d/
 	
-#	cp -dp $(targetprefix)/usr/bin/dbus-daemon $(prefix)/release/usr/bin/
-#	cp -dp $(targetprefix)/usr/bin/dbus-uuidgen $(prefix)/release/usr/bin/
-#	cp -dp $(targetprefix)/usr/bin/dbus-cleanup-sockets $(prefix)/release/usr/bin/
-#	cp -dp $(targetprefix)/usr/bin/dbus-launch $(prefix)/release/usr/bin/
-#	cp -dp $(targetprefix)/usr/bin/dbus-monitor $(prefix)/release/usr/bin/
-#	cp -dp $(targetprefix)/usr/bin/dbus-run-session $(prefix)/release/usr/bin/
-#	cp -dp $(targetprefix)/usr/bin/dbus-send $(prefix)/release/usr/bin/
+#	cp -f $(targetprefix)/usr/bin/dbus-daemon $(prefix)/release/usr/bin/
+#	cp -f $(targetprefix)/usr/bin/dbus-uuidgen $(prefix)/release/usr/bin/
+#	cp -f $(targetprefix)/usr/bin/dbus-cleanup-sockets $(prefix)/release/usr/bin/
+#	cp -f $(targetprefix)/usr/bin/dbus-launch $(prefix)/release/usr/bin/
+#	cp -f $(targetprefix)/usr/bin/dbus-monitor $(prefix)/release/usr/bin/
+#	cp -f $(targetprefix)/usr/bin/dbus-run-session $(prefix)/release/usr/bin/
+#	cp -f $(targetprefix)/usr/bin/dbus-send $(prefix)/release/usr/bin/
 	cp -aR $(targetprefix)/etc/dbus-1 $(prefix)/release/etc/
-#	cp -dp $(buildprefix)/root/etc/init.d/dbus $(prefix)/release/etc/init.d/
+#	cp -f $(buildprefix)/root/etc/init.d/dbus $(prefix)/release/etc/init.d/
 
-	cp -p $(targetprefix)/usr/bin/irw $(prefix)/release/usr/bin/
-	cp -p $(targetprefix)/usr/bin/irrecord $(prefix)/release/usr/bin/
-	cp -p $(targetprefix)/usr/bin/irexec $(prefix)/release/usr/bin/
-	cp -p $(targetprefix)/usr/bin/ircat $(prefix)/release/usr/bin/
-	cp -p $(targetprefix)/usr/sbin/lircd $(prefix)/release/usr/sbin/
-	cp -dp $(buildprefix)/root/etc/init.d/lircd $(prefix)/release/etc/init.d/
+	cp -f $(targetprefix)/usr/bin/irw $(prefix)/release/usr/bin/
+	cp -f $(targetprefix)/usr/bin/irrecord $(prefix)/release/usr/bin/
+	cp -f $(targetprefix)/usr/bin/irexec $(prefix)/release/usr/bin/
+	cp -f $(targetprefix)/usr/bin/ircat $(prefix)/release/usr/bin/
+	cp -f $(targetprefix)/usr/sbin/lircd $(prefix)/release/usr/sbin/
+	cp -f $(buildprefix)/root/etc/init.d/lircd $(prefix)/release/etc/init.d/
 	mkdir -p $(prefix)/release/var/run/lirc
 	
-	cp -dp $(buildprefix)/root/etc/init.d/ntpd $(prefix)/release/etc/init.d/
+	cp -f $(buildprefix)/root/etc/init.d/ntpd $(prefix)/release/etc/init.d/
+	
+	cp -f $(buildprefix)/root/etc/init.d/telnetd $(prefix)/release/etc/init.d/
+
+	cp -f $(targetprefix)/usr/sbin/vsftpd $(prefix)/release/usr/sbin/	
+	cp -f $(buildprefix)/root/release/vsftpd $(prefix)/release/etc/init.d/
+	
+	cp -f $(buildprefix)/root/etc/init.d/xbmc $(prefix)/release/etc/init.d/
 	
 	mkdir -p $(prefix)/release/etc/rc.d/rc0.d
-	ln -s ../init.d $(prefix)/release/etc/rc.d
-	ln -fs halt $(prefix)/release/sbin/reboot
-	ln -fs halt $(prefix)/release/sbin/poweroff
-	ln -s ../init.d/sendsigs $(prefix)/release/etc/rc.d/rc0.d/S20sendsigs
-	ln -s ../init.d/umountfs $(prefix)/release/etc/rc.d/rc0.d/S40umountfs
-	ln -s ../init.d/halt $(prefix)/release/etc/rc.d/rc0.d/S90halt
+	ln -s ../init.d			$(prefix)/release/etc/rc.d
+	ln -fs halt			$(prefix)/release/sbin/reboot
+	ln -fs halt			$(prefix)/release/sbin/poweroff
+	ln -s ../init.d/sendsigs	$(prefix)/release/etc/rc.d/rc0.d/S20sendsigs
+	ln -s ../init.d/umountfs	$(prefix)/release/etc/rc.d/rc0.d/S40umountfs
+	ln -s ../init.d/halt		$(prefix)/release/etc/rc.d/rc0.d/S90halt
+	
 	mkdir -p $(prefix)/release/etc/rc.d/rc3.d
-	ln -s ../init.d/udhcpc $(prefix)/release/etc/rc.d/rc3.d/S10udhcpc
-	ln -s ../init.d/lircd $(prefix)/release/etc/rc.d/rc3.d/S20lircd
-	ln -s ../init.d/ntpd $(prefix)/release/etc/rc.d/rc3.d/S23ntpd
-	ln -s ../init.d/avahi-daemon $(prefix)/release/etc/rc.d/rc3.d/S50avahi-daemon
+	ln -s ../init.d/udhcpc		$(prefix)/release/etc/rc.d/rc3.d/S10udhcpc
+	ln -s ../init.d/hostname	$(prefix)/release/etc/rc.d/rc3.d/S15hostname
+	ln -s ../init.d/lircd		$(prefix)/release/etc/rc.d/rc3.d/S20lircd
+	ln -s ../init.d/ntpd		$(prefix)/release/etc/rc.d/rc3.d/S23ntpd
+	ln -s ../init.d/telnetd		$(prefix)/release/etc/rc.d/rc3.d/S25telnetd
+	ln -s ../init.d/vsftpd		$(prefix)/release/etc/rc.d/rc3.d/S30vsftpd
+	ln -s ../init.d/avahi-daemon	$(prefix)/release/etc/rc.d/rc3.d/S50avahi-daemon
+	ln -s ../init.d/xbmc		$(prefix)/release/etc/rc.d/rc3.d/S90xbmc
+	
 	mkdir -p $(prefix)/release/etc/rc.d/rc6.d
-	ln -s ../init.d/sendsigs $(prefix)/release/etc/rc.d/rc6.d/S20sendsigs
-	ln -s ../init.d/umountfs $(prefix)/release/etc/rc.d/rc6.d/S40umountfs
-	ln -s ../init.d/reboot $(prefix)/release/etc/rc.d/rc6.d/S90reboot
+	ln -s ../init.d/sendsigs	$(prefix)/release/etc/rc.d/rc6.d/S20sendsigs
+	ln -s ../init.d/umountfs	$(prefix)/release/etc/rc.d/rc6.d/S40umountfs
+	ln -s ../init.d/reboot		$(prefix)/release/etc/rc.d/rc6.d/S90reboot
 
 #
 # release_ufs912
@@ -171,6 +184,7 @@ release_xbmc_spark7162: release_xbmc_common_utils
 	fi
 	cp $(targetprefix)/boot/video_7105.elf $(prefix)/release/boot/video.elf
 	cp $(targetprefix)/boot/audio_7105.elf $(prefix)/release/boot/audio.elf
+	cp $(targetprefix)/boot/audio_dts_7105.elf $(prefix)/release/boot/audio_dts.elf
 	mv $(prefix)/release/lib/firmware/component_7105_pdk7105.fw $(prefix)/release/lib/firmware/component.fw
 	rm -f $(prefix)/release/lib/firmware/component_7111_mb618.fw
 	rm -f $(prefix)/release/lib/firmware/dvb-fe-{avl2108,avl6222,cx24116,cx21143,stv6306}.fw
@@ -242,7 +256,7 @@ release_xbmc_base:
 	cp -dp $(targetprefix)/etc/hosts $(prefix)/release/etc/ && \
 	cp $(buildprefix)/root/etc/inetd.conf $(prefix)/release/etc/ && \
 	cp -dp $(targetprefix)/etc/inittab $(prefix)/release/etc/ && \
-	cp -dp $(targetprefix)/etc/localtime $(prefix)/release/etc/ && \
+	ln -s ../usr/share/zoneinfo/Taipei $(prefix)/release/etc/localtime && \
 	cp -dp $(targetprefix)/etc/mtab $(prefix)/release/etc/ && \
 	cp -dp $(targetprefix)/etc/passwd $(prefix)/release/etc/ && \
 	cp -dp $(targetprefix)/etc/profile $(prefix)/release/etc/ && \
@@ -262,16 +276,13 @@ release_xbmc_base:
 	cp $(buildprefix)/root/release/reboot $(prefix)/release/etc/init.d/ && \
 	cp -aR $(buildprefix)/root/usr/share/udhcpc/* $(prefix)/release/usr/share/udhcpc/ && \
 	cp -aR $(buildprefix)/root/usr/share/zoneinfo/* $(prefix)/release/usr/share/zoneinfo/ && \
-	echo "576i50" > $(prefix)/release/etc/videomode && \
+	echo "480i60" > $(prefix)/release/etc/videomode && \
 	cp $(buildprefix)/root/release/rcS_stm23_xbmc$(if $(TF7700),_$(TF7700))$(if $(HL101),_$(HL101))$(if $(VIP1_V2),_$(VIP1_V2))$(if $(VIP2_V1),_$(VIP2_V1))$(if $(UFS912),_$(UFS912))$(if $(UFS913),_$(UFS913))$(if $(SPARK),_$(SPARK))$(if $(SPARK7162),_$(SPARK7162))$(if $(UFS922),_$(UFS922))$(if $(OCTAGON1008),_$(OCTAGON1008))$(if $(FORTIS_HDBOX),_$(FORTIS_HDBOX))$(if $(ATEVIO7500),_$(ATEVIO7500))$(if $(HS7810A),_$(HS7810A))$(if $(HS7110),_$(HS7110))$(if $(WHITEBOX),_$(WHITEBOX))$(if $(CUBEREVO),_$(CUBEREVO))$(if $(CUBEREVO_MINI),_$(CUBEREVO_MINI))$(if $(CUBEREVO_MINI2),_$(CUBEREVO_MINI2))$(if $(CUBEREVO_MINI_FTA),_$(CUBEREVO_MINI_FTA))$(if $(CUBEREVO_250HD),_$(CUBEREVO_250HD))$(if $(CUBEREVO_2000HD),_$(CUBEREVO_2000HD))$(if $(CUBEREVO_9500HD),_$(CUBEREVO_9500HD))$(if $(IPBOX9900),_$(IPBOX9900))$(if $(IPBOX99),_$(IPBOX99))$(if $(IPBOX55),_$(IPBOX55))$(if $(ADB_BOX),_$(ADB_BOX)) $(prefix)/release/etc/init.d/rcS && \
 	chmod 755 $(prefix)/release/etc/init.d/rcS && \
 	cp $(buildprefix)/root/release/mountvirtfs $(prefix)/release/etc/init.d/ && \
 	cp $(buildprefix)/root/release/mme_check $(prefix)/release/etc/init.d/ && \
 	cp $(buildprefix)/root/release/mountall $(prefix)/release/etc/init.d/ && \
 	cp $(buildprefix)/root/release/hostname $(prefix)/release/etc/init.d/ && \
-	cp $(buildprefix)/root/release/vsftpd $(prefix)/release/etc/init.d/ && \
-	cp $(buildprefix)/root/release/xbmc_userdata $(prefix)/release/etc/init.d/ && \
-	cp -dp $(targetprefix)/usr/sbin/vsftpd $(prefix)/release/usr/bin/ && \
 	cp $(buildprefix)/root/release/bootclean.sh $(prefix)/release/etc/init.d/ && \
 	cp $(buildprefix)/root/release/network $(prefix)/release/etc/init.d/ && \
 	cp $(buildprefix)/root/release/networking $(prefix)/release/etc/init.d/ && \
@@ -375,7 +386,7 @@ endif
 	rm -f $(prefix)/release/lib/*.{a,o,la}
 
 	cp -R $(targetprefix)/usr/lib/* $(prefix)/release/usr/lib/
-	rm -rf $(prefix)/release/usr/lib/{engines,gconv,ldscripts,libxslt-plugins,pkgconfig,python$(PYTHON_VERSION),sigc++-1.2,X11}
+	rm -rf $(prefix)/release/usr/lib/{engines,ldscripts,libxslt-plugins,pkgconfig,python$(PYTHON_VERSION),sigc++-1.2,X11}
 	rm -f $(prefix)/release/usr/lib/*.{a,o,la}
 
 #
