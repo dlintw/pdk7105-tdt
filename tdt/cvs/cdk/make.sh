@@ -402,7 +402,7 @@ echo && \
 echo "Performing configure..." && \
 echo "-----------------------" && \
 echo && \
-./configure $CONFIGPARAM
+set -e && ./configure $CONFIGPARAM
 
 ##############################################
 
