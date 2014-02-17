@@ -146,7 +146,7 @@ gmediarender-0.0.6.tar.bz2;http://savannah.nongnu.org/download/gmrender
 mediatomb-0.12.1.tar.gz;http://downloads.sourceforge.net/mediatomb
 tinyxml_2_6_2.tar.gz;http://pkgs.fedoraproject.org/repo/pkgs/tinyxml/tinyxml_2_6_2.tar.gz/c1b864c96804a10526540c664ade67f0
 taglib-1.8.tar.gz;https://github.com/downloads/taglib/taglib
-libnfs.git;git://github.com/sahlberg/libnfs.git;c0ebf57b212ffefe83e2a50358499f68e7289e93
+libnfs.git;git://github.com/sahlberg/libnfs.git
 
 #
 # PYTHON
