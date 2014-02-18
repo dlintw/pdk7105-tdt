@@ -4,8 +4,8 @@ $(DEPDIR)/xbmc-nightly.do_prepare:
 	REVISION=""; \
 	PVRREVISION=""; \
 	DIFF="0"; \
-	REPO="git://github.com/xbmc/xbmc.git"; \
-	PVRREPO="git://github.com/opdenkamp/xbmc-pvr-addons.git"; \
+	REPO="https://github.com/xbmc/xbmc.git"; \
+	PVRREPO="https://github.com/opdenkamp/xbmc-pvr-addons.git"; \
 	rm -rf $(appsdir)/xbmc-nightly; \
 	rm -rf $(appsdir)/xbmc-nightly.org; \
 	clear; \
@@ -18,7 +18,7 @@ $(DEPDIR)/xbmc-nightly.do_prepare:
 	echo "4) Fr,  31 Oct 2012 22:34 - Frodo_alpha7 - e292b1147bd89a7e53742e3e5039b9a906a3b1d0"; \
 	echo "5) Fr,  02 Jan 2013 22:34 - Frodo_rc3    - 7a6cb7f49ae19dca3c48c40fa3bd20dc3c490e60"; \
 	echo "6) current inactive... comming soon, here is the next stable (case 6 == DIFF=6)"; \
-	read -p "Select: "; \
+	echo read -p "Select: "; REPLY=5; \
 	echo "Selection: " $$REPLY; \
 	[ "$$REPLY" == "0" ] && DIFF="4"; \
 	[ "$$REPLY" == "1" ] && DIFF="1" && REVISION="460e79416c5cb13010456794f36f89d49d25da75"; \
