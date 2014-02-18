@@ -9,9 +9,9 @@ release_xbmc_common_utils:
 #	remove the slink to busybox
 	rm -f $(prefix)/release/sbin/halt
 	cp -f $(targetprefix)/sbin/halt $(prefix)/release/sbin/
-	cp $(buildprefix)/root/release/umountfs $(prefix)/release/etc/init.d/
-	cp $(buildprefix)/root/release/rc $(prefix)/release/etc/init.d/
-	cp $(buildprefix)/root/release/sendsigs $(prefix)/release/etc/init.d/
+	cp $(buildprefix)/root/etc/init.d/umountfs $(prefix)/release/etc/init.d/
+	cp $(buildprefix)/root/etc/init.d/rc $(prefix)/release/etc/init.d/
+	cp $(buildprefix)/root/etc/init.d/sendsigs $(prefix)/release/etc/init.d/
 	chmod 755 $(prefix)/release/etc/init.d/umountfs
 	chmod 755 $(prefix)/release/etc/init.d/rc
 	chmod 755 $(prefix)/release/etc/init.d/sendsigs
@@ -226,7 +226,7 @@ release_xbmc_base:
 	cp -dp $(targetprefix)/etc/network/options $(prefix)/release/etc/network/ && \
 	cp -dp $(targetprefix)/etc/init.d/umountfs $(prefix)/release/etc/init.d/ && \
 	cp -dp $(targetprefix)/etc/init.d/sendsigs $(prefix)/release/etc/init.d/ && \
-	cp $(buildprefix)/root/release/reboot $(prefix)/release/etc/init.d/ && \
+	cp $(buildprefix)/root/etc/init.d/reboot $(prefix)/release/etc/init.d/ && \
 	cp -aR $(buildprefix)/root/usr/share/udhcpc/* $(prefix)/release/usr/share/udhcpc/ && \
 	cp -aR $(buildprefix)/root/usr/share/zoneinfo/* $(prefix)/release/usr/share/zoneinfo/ && \
 	echo "576i50" > $(prefix)/release/etc/videomode && \
@@ -236,12 +236,12 @@ release_xbmc_base:
 	cp $(buildprefix)/root/release/mme_check $(prefix)/release/etc/init.d/ && \
 	cp $(buildprefix)/root/etc/init.d/mountall $(prefix)/release/etc/init.d/ && \
 	cp $(buildprefix)/root/etc/init.d/hostname $(prefix)/release/etc/init.d/ && \
-	cp $(buildprefix)/root/release/vsftpd $(prefix)/release/etc/init.d/ && \
+	cp $(buildprefix)/root/etc/init.d/vsftpd $(prefix)/release/etc/init.d/ && \
 	cp $(buildprefix)/root/release/xbmc_userdata $(prefix)/release/etc/init.d/ && \
 	cp -dp $(targetprefix)/usr/sbin/vsftpd $(prefix)/release/usr/bin/ && \
-	cp $(buildprefix)/root/release/bootclean.sh $(prefix)/release/etc/init.d/ && \
-	cp $(buildprefix)/root/release/network $(prefix)/release/etc/init.d/ && \
-	cp $(buildprefix)/root/release/networking $(prefix)/release/etc/init.d/ && \
+	cp $(buildprefix)/root/etc/init.d/bootclean.sh $(prefix)/release/etc/init.d/ && \
+	cp $(buildprefix)/root/etc/init.d/network $(prefix)/release/etc/init.d/ && \
+	cp $(buildprefix)/root/etc/init.d/networking $(prefix)/release/etc/init.d/ && \
 	cp $(buildprefix)/root/bootscreen/bootlogo.mvi $(prefix)/release/boot/ && \
 	cp $(buildprefix)/root/bin/autologin $(prefix)/release/bin/ && \
 	cp -p $(targetprefix)/usr/bin/killall $(prefix)/release/usr/bin/ && \
@@ -430,7 +430,7 @@ endif
 		fi; \
 		cp -f $(buildprefix)/root/release/auto.hotplug $(prefix)/release/etc/; \
 		cp -f $(buildprefix)/root/release/auto.network $(prefix)/release/etc/; \
-		cp -f $(buildprefix)/root/release/autofs $(prefix)/release/etc/init.d/; \
+		cp -f $(buildprefix)/root/etc/init.d/autofs $(prefix)/release/etc/init.d/; \
 	fi
 
 #
