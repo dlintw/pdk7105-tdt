@@ -57,7 +57,13 @@ while ( <RULES> )
         my $branch = $_[3];
         $output .= "-b " . $branch . " ";
       }
-      $output .= $url ." \$(archivedir)/" . $file . " ";
+      if ( $url =~ m#^git://github.com# ) {
+        my $tmpurl= $url;
+	$tmpurl =~ s#^git://github.com#https://github.com#;
+        $output .= $tmpurl ." \$(archivedir)/" . $file . " ";
+      }
+        $output .= $url ." \$(archivedir)/" . $file . " ";
+      }
       if ( @_ > 2 )
       {
         my $revision = $_[2];
@@ -74,3 +80,4 @@ while ( <RULES> )
 close ( RULES );
 
 print $head . "\n\n" . $output . "\n";
+# vim:et sw ts=2 ts=2 ai:
