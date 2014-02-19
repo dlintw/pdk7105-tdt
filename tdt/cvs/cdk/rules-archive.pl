@@ -61,7 +61,7 @@ while ( <RULES> )
         my $tmpurl= $url;
 	$tmpurl =~ s#^git://github.com#https://github.com#;
         $output .= $tmpurl ." \$(archivedir)/" . $file . " ";
-      }
+      } else {
         $output .= $url ." \$(archivedir)/" . $file . " ";
       }
       if ( @_ > 2 )
