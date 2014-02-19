@@ -152,6 +152,7 @@ $(DEPDIR)/samba: bootstrap $(SAMBA_ADAPTED_ETC_FILES:%=root/etc/%) @DEPENDS_samb
 		[ "$${i%%/*}" = "init.d" ] && chmod 755 $(prefix)/$*cdkroot/etc/$$i || true; done )
 		@INSTALL_samba@
 		cp @DIR_samba@/source3/bin/libsmbclient.so.0 $(hostprefix)/../cdkroot/lib/libsmbclient.so
+		cp @DIR_samba@/source3/bin/libsmbclient.so.0 $(hostprefix)/../cdkroot/lib/libsmbclient.so.0
 		cp @DIR_samba@/source3/include/libsmbclient.h $(hostprefix)/../cdkroot/usr/include/
 	@DISTCLEANUP_samba@
 	touch $@
