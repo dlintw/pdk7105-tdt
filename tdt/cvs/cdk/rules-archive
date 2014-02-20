@@ -9,7 +9,7 @@
 #
 # core
 #
-stlinux24-host-kernel-source-sh4-2.6.32.10_stm24_0201-201.src.rpm;ftp://ftp.stlinux.com/pub/stlinux/2.4/SRPMS
+stlinux24-host-kernel-source-sh4-2.6.32.10_stm24_0201-201.src.rpm;http://ftp.stlinux.com/pub/stlinux/2.4/SRPMS
 squashfs3.0.tar.gz;http://heanet.dl.sourceforge.net/sourceforge/squashfs
 lzma442.tar.bz2;http://heanet.dl.sourceforge.net/sourceforge/sevenzip
 squashfs4.0.tar.gz;http://heanet.dl.sourceforge.net/sourceforge/squashfs
@@ -58,7 +58,7 @@ fbset_2.1-6.diff.gz;http://archive.debian.org/debian/dists/potato/main/source/ad
 boost_1_53_0.tar.bz2;http://prdownloads.sourceforge.net/sourceforge/boost
 pngquant-1.1-src.tgz;ftp://ftp.simplesystems.org/pub/libpng/png/applications/pngquant
 mplayer-export-snapshot.tar.bz2;ftp://ftp.mplayerhq.hu/MPlayer/releases
-opkg-0.1.8+svnr587.tar.gz;http://src.evolux.yourweb.de
+opkg-618.tar.gz;http://downloads.openwrt.org/sources
 sysstat-10.0.4.tar.gz;http://pagesperso-orange.fr/sebastien.godard
 ImageMagick-6.7.7-7.tar.bz2;ftp://ftp.fifi.org/pub/ImageMagick
 shairport.git;git://github.com/abrasive/shairport;1.0-dev
@@ -71,7 +71,7 @@ luaposix.git;git://github.com/luaposix/luaposix.git;release-v31
 libao-1.1.0.tar.gz;http://downloads.xiph.org/releases/ao
 howl-1.0.0.tar.gz;http://downloads.sourceforge.net/project/howl/howl/1.0.0
 zlib-1.2.8.tar.gz;http://zlib.net
-readline-6.2.tar.gz;ftp://ftp.cwru.edu/pub/bash
+readline-6.2.tar.gz;http://ftp.gnu.org/gnu/readline
 freetype-2.5.0.1.tar.bz2;http://prdownloads.sourceforge.net/sourceforge/freetype
 lirc-0.9.0.tar.gz;http://prdownloads.sourceforge.net/lirc
 jpegsrc.v8d.tar.gz;http://www.ijg.org/files
@@ -119,19 +119,19 @@ libcap-2.22.tar.bz2;http://mirror.linux.org.au/linux/libs/security/linux-privs/l
 libogg-1.2.2.tar.gz;http://downloads.xiph.org/releases/ogg
 flac-1.2.1.tar.gz;http://sourceforge.net/projects/flac/files/flac-src/flac-1.2.1-src
 BroFS1.2.tgz;http://www.avalpa.com/assets/freesoft/other
-alsa-lib-1.0.25.tar.bz2;ftp://gd.tuwien.ac.at/opsys/linux/alsa/lib
-alsa-utils-1.0.25.tar.bz2;ftp://gd.tuwien.ac.at/opsys/linux/alsa/utils
+alsa-lib-1.0.25.tar.bz2;http://alsa.cybermirror.org/lib
+alsa-utils-1.0.25.tar.bz2;http://alsa.cybermirror.org/utils
 rtmpdump-2.4.tar.gz;http://rtmpdump.mplayerhq.hu/download
 libdvbsi++-0.3.6.tar.bz2;http://www.saftware.de/libdvbsi++
 libmpeg2-0.5.1.tar.gz;http://libmpeg2.sourceforge.net/files
 libsamplerate-0.1.8.tar.gz;http://www.mega-nerd.com/SRC
 libvorbis-1.3.2.tar.bz2;http://downloads.xiph.org/releases/vorbis
 libmodplug-0.8.8.4.tar.gz;http://downloads.sourceforge.net/project/modplug-xmms/libmodplug/0.8.8.4
-tiff-4.0.1.tar.gz;ftp://ftp.remotesensing.org/pub/libtiff
+tiff-4.0.1.tar.gz;http://download.osgeo.org/libtiff
 lzo-2.06.tar.gz;http://www.oberhumer.com/opensource/lzo/download
 yajl.git;git://github.com/lloyd/yajl;f4b2b1af87483caac60e50e5352fc783d9b2de2d
 pcre-8.30.tar.bz2;http://pkgs.fedoraproject.org/repo/pkgs/pcre/pcre-8.30.tar.bz2/98e8928cccc945d04279581e778fbdff
-libcdio-0.83.tar.gz;ftp://ftp.gnu.org/gnu/libcdio
+libcdio-0.83.tar.gz;http://ftp.gnu.org/gnu/libcdio
 jasper-1.900.1.zip;http://www.ece.uvic.ca/~frodo/jasper/software
 mysql-5.1.40.tar.gz;http://downloads.mysql.com/archives/mysql-5.1
 libmicrohttpd-0.9.19.tar.gz;http://ftp.halifax.rwth-aachen.de/gnu/libmicrohttpd
@@ -180,7 +180,7 @@ gst-plugins-bad-0.10.23.tar.bz2;http://gstreamer.freedesktop.org/src/gst-plugins
 gst-plugins-ugly-0.10.19.tar.bz2;http://gstreamer.freedesktop.org/src/gst-plugins-ugly
 gst-fluendo-mpegdemux-0.10.71.tar.gz;http://core.fluendo.com/gstreamer/src/gst-fluendo-mpegdemux
 gst-ffmpeg-0.10.13.tar.bz2;http://gstreamer.freedesktop.org/src/gst-ffmpeg
-gst-plugin-subsink.git;git://openpli.git.sourceforge.net/gitroot/openpli/gstsubsink;8182abe751364f6eb1ed45377b0625102aeb68d5
+gst-plugin-subsink.git;git://git.code.sf.net/p/openpli/gstsubsink;8182abe751364f6eb1ed45377b0625102aeb68d5
 
 #
 # ENIGMA2
@@ -213,7 +213,7 @@ jfsutils-1.1.15.tar.gz;http://jfs.sourceforge.net/project/pub
 lm_sensors-2.9.2.tar.gz;http://dl.lm-sensors.org/lm-sensors/releases
 sdparm-1.07.tgz;http://sg.danny.cz/sg/p
 parted-3.0.tar.gz;http://ftp.gnu.org/pub/gnu/parted
-util-linux-2.23.tar.bz2;ftp://ftp.kernel.org/pub/linux/utils/util-linux/v2.23
+util-linux-2.23.tar.bz2;http://ftp.kernel.org/pub/linux/utils/util-linux/v2.23
 xfsprogs-3.1.8.tar.gz;http://ftp.gwdg.de/pub/linux/misc/xfs/xfs/cmd_tars
 
 #

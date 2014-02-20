@@ -4,8 +4,8 @@ $(DEPDIR)/xbmc-nightly.do_prepare:
 	REVISION=""; \
 	PVRREVISION=""; \
 	DIFF="0"; \
-	REPO="git://github.com/xbmc/xbmc.git"; \
-	PVRREPO="git://github.com/opdenkamp/xbmc-pvr-addons.git"; \
+	REPO="https://github.com/xbmc/xbmc.git"; \
+	PVRREPO="https://github.com/opdenkamp/xbmc-pvr-addons.git"; \
 	rm -rf $(appsdir)/xbmc-nightly; \
 	rm -rf $(appsdir)/xbmc-nightly.org; \
 	echo "default to use Fr,  02 Jan 2013 22:34 - Frodo_rc3    - 7a6cb7f49ae19dca3c48c40fa3bd20dc3c490e60"; \

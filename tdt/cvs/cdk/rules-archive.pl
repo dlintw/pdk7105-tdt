@@ -57,7 +57,14 @@ while ( <RULES> )
         my $branch = $_[3];
         $output .= "-b " . $branch . " ";
       }
-      $output .= $url ." \$(archivedir)/" . $file . " ";
+      if ( $url =~ m#^git://# ) {
+        my $tmpurl= $url;
+	$tmpurl =~ s#^git#https# if $url =~ m#^git://github.com#;
+	$tmpurl =~ s#^git#http# if $url =~ m#^git://git.code.sf.net#;
+        $output .= $tmpurl ." \$(archivedir)/" . $file . " ";
+      } else {
+        $output .= $url ." \$(archivedir)/" . $file . " ";
+      }
       if ( @_ > 2 )
       {
         my $revision = $_[2];
@@ -74,3 +81,4 @@ while ( <RULES> )
 close ( RULES );
 
 print $head . "\n\n" . $output . "\n";
+# vim:et sw ts=2 ts=2 ai:
