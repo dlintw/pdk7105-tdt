@@ -57,9 +57,10 @@ while ( <RULES> )
         my $branch = $_[3];
         $output .= "-b " . $branch . " ";
       }
-      if ( $url =~ m#^git://github.com# ) {
+      if ( $url =~ m#^git://# ) {
         my $tmpurl= $url;
-	$tmpurl =~ s#^git://github.com#https://github.com#;
+	$tmpurl =~ s#^git#https# if $url =~ m#^git://github.com#;
+	$tmpurl =~ s#^git#http# if $url =~ m#^git://git.code.sf.net#;
         $output .= $tmpurl ." \$(archivedir)/" . $file . " ";
       } else {
         $output .= $url ." \$(archivedir)/" . $file . " ";
