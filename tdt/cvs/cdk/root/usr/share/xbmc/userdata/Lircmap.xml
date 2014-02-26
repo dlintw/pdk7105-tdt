@@ -1,0 +1,43 @@
+<!-- This file contains the mapping of LIRC keys to XBMC keys used in Keymap.xml  -->
+<!--                                                                              -->
+<!-- How to add remotes                                                           -->
+<!-- <remote device="name_Lirc_calls_the_remote">                                 -->
+<!--                                                                              -->
+<!-- For the commands the layout following layout is used                         -->
+<!-- <XBMC_COMMAND>LircButtonName</XBMC_COMMAND>                                  -->
+<!--                                                                              -->
+<!-- For a list of XBMC_COMMAND's check out the <remote> sections of keymap.xml   -->
+
+<lircmap>
+	<remote device="NextVOD_1.0">
+		<mute>KEY_MUTE</mute>
+		<menu>KEY_HOME</menu>
+		<power>KEY_POWER</power>
+		<red>KEY_RED</red>
+		<blue>KEY_BLUE</blue>
+		<left>KEY_PREVIOUS</left>
+		<right>KEY_NEXT</right>
+		<up>KEY_VOLUMEUP</up>
+		<down>KEY_VOLUMEDOWN</down>
+		<play>KEY_PLAY</play>
+		<green>KEY_GREEN</green>
+		<yellow>KEY_YELLOW</yellow>
+		<one>KEY_1</one>
+		<two>KEY_2</two>
+		<three>KEY_3</three>
+		<four>KEY_4</four>
+		<five>KEY_5</five>
+		<six>KEY_6</six>
+		<seven>KEY_7</seven>
+		<eight>KEY_8</eight>
+		<nine>KEY_9</nine>
+		<star>KEY_ASTERISK</star>
+		<zero>KEY_0</zero>
+		<hash>KEY_POUND</hash>
+		<enter>KEY_MORE</enter>
+		<display>KEY_PEOPLE</display>
+		<clear>KEY_BACKSPACE</clear>
+		<info>KEY_INFO</info>
+		<myvideo>KEY_FAVORITES</myvideo>
+	</remote>
+</lircmap>

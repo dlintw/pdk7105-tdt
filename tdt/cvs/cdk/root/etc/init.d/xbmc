@@ -10,23 +10,23 @@ test -f /usr/lib/xbmc/xbmc.bin || exit 0
 case "$1" in
   start)
     echo -n "Starting XBMC"
-    start-stop-daemon --start --quiet --exec /usr/lib/xbmc/xbmc.bin -- -l /var/run/lirc/lircd
+    start-stop-daemon --start --quiet --chuid root --exec /usr/lib/xbmc/xbmc.bin -- -l /var/run/lirc/lircd
     echo "."
     ;;
   stop)
     echo -n "Stopping XBMC: xbmc"
-    start-stop-daemon --stop --quiet --exec /usr/lib/xbmc/xbmc.bin
+    start-stop-daemon --stop --quiet --user root --exec /usr/lib/xbmc/xbmc.bin
     echo "."
     ;;
   reload|force-reload)
-    start-stop-daemon --stop --quiet --signal 1 --exec /usr/lib/xbmc/xbmc.bin
+    start-stop-daemon --stop --quiet --user root --signal 1 --exec /usr/lib/xbmc/xbmc.bin
     ;;
   restart)
     echo -n "Stopping XBMC"
-    start-stop-daemon --stop --quiet --exec /usr/lib/xbmc/xbmc.bin
+    start-stop-daemon --stop --quiet --user root --exec /usr/lib/xbmc/xbmc.bin
     sleep 1
     echo -n "Starting XBMC"
-    start-stop-daemon --start --quiet --exec /usr/lib/xbmc/xbmc.bin -- -l /var/run/lirc/lircd
+    start-stop-daemon --start --quiet --chuid root  --exec /usr/lib/xbmc/xbmc.bin -- -l /var/run/lirc/lircd
     echo "."
     ;;
   *)

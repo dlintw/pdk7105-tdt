@@ -185,7 +185,7 @@
 		</font>
 	</fontset>
 
-	<fontset id="Arial" idloc="31392" unicode="true"> 
+	<fontset id="wqy-microhei" idloc="31392" unicode="true"> 
 	<!-- Arial Font better for non English -->
 	 	<font>
 			<name>font10</name>

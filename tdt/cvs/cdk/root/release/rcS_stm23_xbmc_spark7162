@@ -1,15 +1,26 @@
 #!/bin/sh
 
 MODDIR=/lib/modules
-echo "init frontpanel"
+echo "Initializing frontpanel..."
 insmod $MODDIR/aotom.ko
 insmod $MODDIR/simu_button.ko
 insmod $MODDIR/encrypt.ko
 
+echo "Initializing network interface..."
 ifconfig eth0 up
-udhcpc &
 
 busybox bash &
+
+echo "Mounting filesystems..."
+/bin/mount -t proc proc /proc
+#/bin/mount -t tmpfs mdev /dev
+/bin/mount -t sysfs sysfs /sys
+/bin/mkdir -p /dev/pts
+/bin/mount -t devpts devpts /dev/pts -ogid=5,mode=620
+
+echo "Setting up mdev..."
+echo /sbin/mdev >/proc/sys/kernel/hotplug
+/sbin/mdev -s
 
 if [ -e /var/etc/.firstboot ]; then
    echo "WAIT 1 min" >/dev/vfd
@@ -21,7 +32,7 @@ if [ -e /var/etc/.firstboot ]; then
    mknod -m 666 /dev/tty c 5 0
    mknod -m 444 /dev/random c 1 8
    mknod -m 444 /dev/urandom c 1 9
-   chown -v root:tty /dev/{console,ptmx,tty}
+   chown root:tty /dev/{console,ptmx,tty}
    
    echo "Configuring Avahi..."
    addgroup --system avahi
@@ -31,150 +42,106 @@ if [ -e /var/etc/.firstboot ]; then
    touch /dev/.devfsd
 fi
 
-/etc/init.d/mountvirtfs start
-/etc/init.d/portmap start
+# Normal boot up script
 
 insmod $MODDIR/e2_proc.ko
 
-/etc/init.d/autofs start
+echo "Initializing stmfb..."
+insmod $MODDIR/stmcore-display-sti7105.ko
+insmod $MODDIR/stmfb.ko display0=1920x1080-32@60:24m:12m:ntsc-m:yuv:yuv;
+			#display1=720x480-32@60:4m:0:ntsc-m:cvbs
 
-if [ ! -e /var/etc/.firstboot ]; then
+echo "Loading modules..."
 
-   echo "Starting DEBUG interface..."
-   /etc/init.d/mountall start
-   /etc/init.d/hostname start
-
-   echo "Starting telnetd..."
-   /usr/sbin/telnetd -l /bin/autologin
-
-   echo "Initializing stmfb..."
-   insmod $MODDIR/stmcore-display-sti7105.ko
-   insmod $MODDIR/stmfb.ko display0=1920x1080-32@60:24m:12m:ntsc-m:yuv:yuv;# display1=720x480-32@60:1m:ntsc-m:cvbs;
-
-   echo "Loading modules..."   
-   echo "LOAD" > /dev/vfd
-
-   if [ ! -e /boot/audio.elf ]; then
-      echo "Error: Audio firmware not found!"
-   fi
+if [ ! -f /boot/audio.elf ]; then
+	echo "Error: Audio firmware not found!"
+fi
    
-   if [ ! -e /boot/video.elf ]; then
-      echo "Error: Video firmware not found!"
-   fi  
+if [ ! -f /boot/video.elf ]; then
+	echo "Error: Video firmware not found!"
+fi  
 
-   echo "Loading audio firmware..."
-   /bin/ustslave /dev/st231-1 /boot/audio.elf
-   echo "Loading video firmware..."
-   /bin/ustslave /dev/st231-0 /boot/video.elf
+echo "Loading audio firmware..."
+if [ -f /boot/audio_dts.elf ]; then
+	/bin/ustslave /dev/st231-1 /boot/audio_dts.elf
+else
+	/bin/ustslave /dev/st231-1 /boot/audio.elf
+fi
 
-   echo "Initializing embx..."
-   insmod $MODDIR/embxshell.ko
-   insmod $MODDIR/embxmailbox.ko mailbox0=0xfe211000:136:set2 mailbox1=0xfe212000:0 ;
-   insmod $MODDIR/embxshm.ko mailbox0=shm:0:7:0x60000000:0:256:256:0:512:0x40000000:0x10000000
-   insmod $MODDIR/mme_host.ko transport0=shm
+echo "Loading video firmware..."
+/bin/ustslave /dev/st231-0 /boot/video.elf
 
-   #insmod $MODDIR/embxmailbox.ko mailbox0=0xFE211000:136:set2 mailbox1=0xFE212000:137:set2
-   #insmod $MODDIR/embxshm.ko mailbox0=TransportVideo0:0:3:0x00000000:0:16:16:0:256:0x40000000:0x40000000 mailbox1=TransportAudio1:0:5:0x00000000:0:16:16:0:256:0x40000000:0x40000000
-   #insmod $MODDIR/mme_host.ko transport0=TransportVideo0 transport1=TransportAudio1*/
+echo "Initializing embx..."
+insmod $MODDIR/embxshell.ko
+insmod $MODDIR/embxmailbox.ko mailbox0=0xfe211000:136:set2 mailbox1=0xfe212000:0 ;
+insmod $MODDIR/embxshm.ko mailbox0=shm:0:7:0x60000000:0:256:256:0:512:0x40000000:0x10000000
+insmod $MODDIR/mme_host.ko transport0=shm
 
-   echo "Initializing AVS..."
-   insmod $MODDIR/avs.ko type=avs_pio
+#insmod $MODDIR/embxmailbox.ko mailbox0=0xFE211000:136:set2 mailbox1=0xFE212000:137:set2
+#insmod $MODDIR/embxshm.ko mailbox0=TransportVideo0:0:3:0x00000000:0:16:16:0:256:0x40000000:0x40000000 mailbox1=TransportAudio1:0:5:0x00000000:0:16:16:0:256:0x40000000:0x40000000
+#insmod $MODDIR/mme_host.ko transport0=TransportVideo0 transport1=TransportAudio1*/
 
-   player=`cat /proc/stb/player/version`
-   player=`cat /proc/stb/player/version | awk '{ print substr( $0, length($0) - 2, length($0) ) }'`
-   echo "Initializing player $player..."
+echo "Initializing AVS..."
+insmod $MODDIR/avs.ko type=avs_pio
 
-   insmod $MODDIR/mmelog.ko
-   insmod $MODDIR/ksound.ko
-   insmod $MODDIR/p2div64.ko
-   insmod $MODDIR/stm_v4l2.ko
-   if [ $player -gt 131 ]; then
-      insmod $MODDIR/stmvout.ko
-      insmod $MODDIR/stmvbi.ko
-   fi
-   insmod $MODDIR/pseudocard.ko
+player=`cat /proc/stb/player/version`
+player=`cat /proc/stb/player/version | awk '{ print substr( $0, length($0) - 2, length($0) ) }'`
+echo "Initializing player $player..."
 
-   #you can change t to c to switch the tuner type
-   insmod $MODDIR/spark7162.ko UnionTunerType=t
-   if [ $player -gt 131 ]; then
-      # Full feature pti
-      insmod $MODDIR/pti.ko waitMS=20 videoMem=4096
-      if [ $?=='2' ]; then
-         # Simple pti
-         insmod $MODDIR/pti.ko
-      fi
-      insmod $MODDIR/stm_monitor.ko
-      insmod $MODDIR/stmsysfs.ko
-      insmod $MODDIR/stmdvb.ko
-   else
-      insmod $MODDIR/pti.ko
-      insmod $MODDIR/stmdvb.ko
-      insmod $MODDIR/stm_monitor.ko
-   fi
-   insmod $MODDIR/player2.ko
-   insmod $MODDIR/sth264pp.ko
-   insmod $MODDIR/stmalloc.ko
-   insmod $MODDIR/platform.ko
-   insmod $MODDIR/silencegen.ko
-   insmod $MODDIR/smartcard.ko
-   insmod $MODDIR/cec.ko activemode=1
+insmod $MODDIR/mmelog.ko
+insmod $MODDIR/ksound.ko
+insmod $MODDIR/p2div64.ko
+insmod $MODDIR/stm_v4l2.ko
+if [ $player -gt 131 ]; then
+	insmod $MODDIR/stmvout.ko
+	insmod $MODDIR/stmvbi.ko
+fi
+insmod $MODDIR/pseudocard.ko
 
-   insmod $MODDIR/bpamem.ko
-   mknod /dev/bpamem c 153 0 
+#you can change t to c to switch the tuner type
+insmod $MODDIR/spark7162.ko UnionTunerType=t
+if [ $player -gt 131 ]; then
+	# Full feature pti
+	insmod $MODDIR/pti.ko waitMS=20 videoMem=4096
+	if [ $?=='2' ]; then
+		# Simple pti
+		insmod $MODDIR/pti.ko
+	fi
+	insmod $MODDIR/stm_monitor.ko
+	insmod $MODDIR/stmsysfs.ko
+	insmod $MODDIR/stmdvb.ko
+else
+	insmod $MODDIR/pti.ko
+	insmod $MODDIR/stmdvb.ko
+	insmod $MODDIR/stm_monitor.ko
+fi
+insmod $MODDIR/player2.ko
+insmod $MODDIR/sth264pp.ko
+insmod $MODDIR/stmalloc.ko
+insmod $MODDIR/platform.ko
+insmod $MODDIR/silencegen.ko
+insmod $MODDIR/smartcard.ko
+insmod $MODDIR/cec.ko activemode=1
 
-   echo "Initializing lircd..."
-   /usr/bin/lircd
+insmod $MODDIR/bpamem.ko
+mknod /dev/bpamem c 153 0 
 
-   mknod /dev/rc c 147 1 
-   mknod /dev/sci0 c 169 0
-   mknod /dev/sci1 c 169 1 
-   major=$(awk "\$2==\"sparkid\" {print \$1}" /proc/devices)
-   rm -f /dev/sparkid
-   mknod /dev/sparkid c $major 0 
+mknod /dev/rc c 147 1 
+mknod /dev/sci0 c 169 0
+mknod /dev/sci1 c 169 1 
+major=$(awk "\$2==\"sparkid\" {print \$1}" /proc/devices)
+rm -f /dev/sparkid
+mknod /dev/sparkid c $major 0 
 
-   /bin/evremote2 10 100 &
+/bin/evremote2 10 100 &
 
-   stfbcontrol a 255
+stfbcontrol a 255
 
-   /etc/init.d/mountall start
-   /etc/init.d/hostname start
+/usr/sbin/inetd
 
-   echo "Starting vsftpd..."
-   /usr/sbin/telnetd -l /bin/autologin
-   /etc/init.d/vsftpd start
-   /usr/sbin/inetd
-
-   /etc/init.d/network start &
-   (until false; do echo 1 > /proc/sys/vm/drop_caches; sleep 2; done) &
+(until false; do echo 1 > /proc/sys/vm/drop_caches; sleep 2; done) &
 	mknod /dev/dvb/adapter0/frontend1 c 212 19
 	mknod /dev/dvb/adapter0/frontend2 c 212 35
 	mknod /dev/dvb/adapter0/frontend3 c 212 51
-	
-   NFS=`grep -c nfs /proc/cmdline`
-   if [ "$NFS" -eq "1" ]; then 
-      echo "Booting from nfs, don't set network" 
-   else 
-      if [ -e /etc/network/interfaces ]; then 
-	 ip addr flush eth0 
-	 /etc/init.d/networking stop 
-	 DHCP=`grep -c dhcp /etc/network/interfaces`
-	 if [ "$DHCP" -eq "1" ]; then 
-	    echo "Starting dhcp"
-            /etc/init.d/udhcpc start 
-	 fi 
-	 /etc/init.d/networking start 
-      fi 
-   fi
-   
-   echo "Starting the Avahi Daemon..."
-   /etc/init.d/avahi-daemon start   
-
-#   echo "Loading XBMC..." > /dev/vfd
-   echo "Loading XBMC..."
-
-   /etc/init.d/xbmc_userdata
-   /usr/lib/xbmc/xbmc.bin&
-   
-fi
 
 #never reached

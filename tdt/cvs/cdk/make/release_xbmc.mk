@@ -9,14 +9,25 @@ release_xbmc_common_utils:
 #	remove the slink to busybox
 	rm -f $(prefix)/release/sbin/halt
 	cp -f $(targetprefix)/sbin/halt		$(prefix)/release/sbin/
-	cp -f $(targetprefix)/sbin/modinfo	$(prefix)/release/sbin/
-	cp -f $(targetprefix)/sbin/depmod	$(prefix)/release/sbin/
 	cp $(buildprefix)/root/release/umountfs $(prefix)/release/etc/init.d/
 	cp $(buildprefix)/root/release/rc $(prefix)/release/etc/init.d/
 	cp $(buildprefix)/root/release/sendsigs $(prefix)/release/etc/init.d/
 	chmod 755 $(prefix)/release/etc/init.d/umountfs
 	chmod 755 $(prefix)/release/etc/init.d/rc
 	chmod 755 $(prefix)/release/etc/init.d/sendsigs
+	
+	cp -aR $(buildprefix)/root/etc/mdev $(prefix)/release/etc/
+	cp -f $(buildprefix)/root/etc/mdev.conf $(prefix)/release/etc/
+	
+	cp -f $(targetprefix)/usr/sbin/iwconfig $(prefix)/release/usr/sbin/
+	cp -f $(targetprefix)/usr/sbin/iwevent $(prefix)/release/usr/sbin/
+	cp -f $(targetprefix)/usr/sbin/iwgetid $(prefix)/release/usr/sbin/
+	cp -f $(targetprefix)/usr/sbin/iwlist $(prefix)/release/usr/sbin/
+	cp -f $(targetprefix)/usr/sbin/iwpriv $(prefix)/release/usr/sbin/
+	cp -f $(targetprefix)/usr/sbin/iwspy $(prefix)/release/usr/sbin/
+	cp -f $(targetprefix)/usr/local/sbin/wpa_cli $(prefix)/release/usr/sbin/
+	cp -f $(targetprefix)/usr/local/sbin/wpa_passphrase $(prefix)/release/usr/sbin/
+	cp -f $(targetprefix)/usr/local/sbin/wpa_supplicant $(prefix)/release/usr/sbin/
 
 	cp -f $(targetprefix)/usr/sbin/avahi-autoipd $(prefix)/release/usr/sbin/
 	cp -f $(targetprefix)/usr/sbin/avahi-daemon $(prefix)/release/usr/sbin/
@@ -40,6 +51,8 @@ release_xbmc_common_utils:
 	cp -f $(targetprefix)/usr/bin/ircat $(prefix)/release/usr/bin/
 	cp -f $(targetprefix)/usr/sbin/lircd $(prefix)/release/usr/sbin/
 	cp -f $(buildprefix)/root/etc/init.d/lircd $(prefix)/release/etc/init.d/
+	cp -f $(buildprefix)/root/etc/init.d/irexecd $(prefix)/release/etc/init.d/
+	cp -f $(buildprefix)/root/etc/irexec.conf $(prefix)/release/etc/
 	mkdir -p $(prefix)/release/var/run/lirc
 	
 	cp -f $(buildprefix)/root/etc/init.d/ntpd $(prefix)/release/etc/init.d/
@@ -60,12 +73,15 @@ release_xbmc_common_utils:
 	ln -s ../init.d/halt		$(prefix)/release/etc/rc.d/rc0.d/S90halt
 	
 	mkdir -p $(prefix)/release/etc/rc.d/rc3.d
-	ln -s ../init.d/udhcpc		$(prefix)/release/etc/rc.d/rc3.d/S10udhcpc
-	ln -s ../init.d/hostname	$(prefix)/release/etc/rc.d/rc3.d/S15hostname
-	ln -s ../init.d/lircd		$(prefix)/release/etc/rc.d/rc3.d/S20lircd
-	ln -s ../init.d/ntpd		$(prefix)/release/etc/rc.d/rc3.d/S23ntpd
-	ln -s ../init.d/telnetd		$(prefix)/release/etc/rc.d/rc3.d/S25telnetd
-	ln -s ../init.d/vsftpd		$(prefix)/release/etc/rc.d/rc3.d/S30vsftpd
+	ln -s ../init.d/mountvirtfs	$(prefix)/release/etc/rc.d/rc3.d/S10mountvirtfs
+	ln -s ../init.d/mountall	$(prefix)/release/etc/rc.d/rc3.d/S12mountall
+	ln -s ../init.d/hostname	$(prefix)/release/etc/rc.d/rc3.d/S20hostname
+	ln -s ../init.d/udhcpc		$(prefix)/release/etc/rc.d/rc3.d/S22udhcpc
+	ln -s ../init.d/lircd		$(prefix)/release/etc/rc.d/rc3.d/S25lircd
+	ln -s ../init.d/irexecd		$(prefix)/release/etc/rc.d/rc3.d/S26irexecd
+	ln -s ../init.d/ntpd		$(prefix)/release/etc/rc.d/rc3.d/S30ntpd
+	ln -s ../init.d/telnetd		$(prefix)/release/etc/rc.d/rc3.d/S35telnetd
+	ln -s ../init.d/vsftpd		$(prefix)/release/etc/rc.d/rc3.d/S40vsftpd
 	ln -s ../init.d/avahi-daemon	$(prefix)/release/etc/rc.d/rc3.d/S50avahi-daemon
 	ln -s ../init.d/xbmc		$(prefix)/release/etc/rc.d/rc3.d/S90xbmc
 	
@@ -182,6 +198,7 @@ release_xbmc_spark7162: release_xbmc_common_utils
 	if [ -e $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/i2c_spi/i2s.ko ]; then \
 		cp -f $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/i2c_spi/i2s.ko $(prefix)/release/lib/modules/; \
 	fi
+#	cp -ar $(targetprefix)/lib/modules/$(KERNELVERSION) $(prefix)/release/lib/modules/
 	cp $(targetprefix)/boot/video_7105.elf $(prefix)/release/boot/video.elf
 	cp $(targetprefix)/boot/audio_7105.elf $(prefix)/release/boot/audio.elf
 	cp $(targetprefix)/boot/audio_dts_7105.elf $(prefix)/release/boot/audio_dts.elf
@@ -574,7 +591,7 @@ endif
 	fi
 
 	mkdir $(prefix)/release/usr/share/xbmc/
-	cp -ra $(targetprefix)/usr/share/xbmc/*          $(prefix)/release/usr/share/xbmc/
+	cp -ra $(targetprefix)/usr/share/xbmc/*		$(prefix)/release/usr/share/xbmc/
 	ln -sf /usr/share/xbmc/language/German $(prefix)/release/usr/share/xbmc/language/English
 	rm -rf $(prefix)/release/usr/lib/xbmc/system/players/paplayer
 #	rm -rf $(prefix)/release/usr/lib/xbmc/system/players/dvdplayer
@@ -585,7 +602,7 @@ endif
 	sed -i "s/<home>FirstPage<\/home>/<home>PreviousMenu<\/home>/g" $(prefix)/release/usr/share/xbmc/system/keymaps/keyboard.xml
 #	cp -a $(targetprefix)/usr/share/xbmc/system/keymaps/remote.xml $(prefix)/release/usr/share/xbmc/system/keymaps/
 	cp $(buildprefix)/root/release/keymap_xbmc.xml $(prefix)/release/usr/share/xbmc/system/keymaps/duckbox.xml
-	cp -ra $(buildprefix)/root/.xbmc $(prefix)/release/root
+	cp -ra $(buildprefix)/root/usr/share/xbmc/*	$(prefix)/release/usr/share/xbmc/
 
 #
 # The main target depends on the model.

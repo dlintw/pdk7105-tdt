@@ -1,0 +1,36 @@
+#!/bin/sh
+#
+# This is an init script for Debian Sid
+# Copy it to /etc/init.d/irexecd and type
+# > update-rc.d irexecd defaults 26
+#
+
+test -f /usr/bin/irexec || exit 0
+
+case "$1" in
+  start)
+    echo -n "Starting irexec daemon: irexec"
+    start-stop-daemon --start --quiet --exec /usr/bin/irexec -- -d /etc/irexec.conf
+    ;;
+  stop)
+    echo -n "Stopping irexec daemon: irexec"
+    start-stop-daemon --stop --quiet --exec /usr/bin/irexec
+    echo "."
+    ;;
+  reload|force-reload)
+    start-stop-daemon --stop --quiet --signal 1 --exec /usr/bin/irexec
+    ;;
+  restart)
+    echo -n "Stopping irexec daemon: irexec"
+    start-stop-daemon --stop --quiet --exec /usr/bin/irexec
+    sleep 1
+    echo -n "Starting irexec daemon: irexec"
+    start-stop-daemon --start --quiet --exec /usr/bin/irexec -- -d /etc/irexec.conf
+    echo "."
+    ;;
+  *)
+    echo "Usage: /etc/init.d/irexecd {start|stop|reload|restart|force-reload}"
+    exit 1
+esac
+
+exit 0
