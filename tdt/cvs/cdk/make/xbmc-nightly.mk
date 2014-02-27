@@ -8,9 +8,29 @@ $(DEPDIR)/xbmc-nightly.do_prepare:
 	PVRREPO="git://github.com/opdenkamp/xbmc-pvr-addons.git"; \
 	rm -rf $(appsdir)/xbmc-nightly; \
 	rm -rf $(appsdir)/xbmc-nightly.org; \
-	echo "default to use Fr,  02 Jan 2013 22:34 - Frodo_rc3    - 7a6cb7f49ae19dca3c48c40fa3bd20dc3c490e60"; \
-	DIFF="5" && REVISION="Frodo_rc3" \
-	&& PVRREVISION="Frodo_rc3"; \
+	clear; \
+	echo "Choose between the following revisions:"; \
+	echo "0) Newest (Can fail due to outdated patch)"; \
+	echo "---- REVISIONS ----"; \
+	echo "1) Sat, 14 Apr 2012 12:36 - 460e79416c5cb13010456794f36f89d49d25da75"; \
+	echo "2) Sun, 10 Jun 2012 13:53 - 327710767d2257dad27e3885effba1d49d4557f0"; \
+	echo "3) Fri, 31 Aug 2012 22:34 - Frodo_alpha5 - 12840c28d8fbfd71c26be798ff6b13828b05b168"; \
+	echo "4) Fri, 31 Oct 2012 22:34 - Frodo_alpha7 - e292b1147bd89a7e53742e3e5039b9a906a3b1d0"; \
+	echo "5) Fri, 02 Jan 2013 22:34 - Frodo_rc3    - 7a6cb7f49ae19dca3c48c40fa3bd20dc3c490e60"; \
+	echo "6) Thu, 12 Dec 2013 13:47 - 12.3-Frodo   - 9ed3e580ea7c000541273cbac116ec9e314124ca"; \
+	echo "7) current inactive... comming soon, here is the next stable (case 7 == DIFF=7)"; \
+	read -p "Select: "; \
+	echo "Selection: " $$REPLY; \
+	[ "$$REPLY" == "0" ] && DIFF="4"; \
+	[ "$$REPLY" == "1" ] && DIFF="1" && REVISION="460e79416c5cb13010456794f36f89d49d25da75"; \
+	[ "$$REPLY" == "2" ] && DIFF="2" && REVISION="327710767d2257dad27e3885effba1d49d4557f0"; \
+	[ "$$REPLY" == "3" ] && DIFF="3" && REVISION="Frodo_alpha5"; \
+	[ "$$REPLY" == "4" ] && DIFF="4" && REVISION="Frodo_alpha7" \
+	                                 && PVRREVISION="9e6aca3ac0ff688f132ce0e8a4494b61b9b3ddac"; \
+	[ "$$REPLY" == "5" ] && DIFF="5" && REVISION="Frodo_rc3" \
+	                                 && PVRREVISION="Frodo_rc3"; \
+	[ "$$REPLY" == "6" ] && DIFF="6" && REVISION="12.3-Frodo" \
+	                                 && PVRREVISION="12.0-Frodo"; \
 	\
 	echo "Revision: " $$REVISION; \
 	[ -d "$(archivedir)/xbmc.git" ] && \
@@ -40,11 +60,15 @@ $(DEPDIR)/xbmc-nightly.do_prepare:
 	\
 	cp -ra $(appsdir)/xbmc-nightly $(appsdir)/xbmc-nightly.org; \
 	cd $(appsdir)/xbmc-nightly && patch -p1 < "../../cdk/Patches/xbmc-nightly.$$DIFF.diff"; \
-	cd $(appsdir)/xbmc-nightly && patch -p1 < "../../cdk/Patches/xbmc-nightly.pvr.$$DIFF.diff"
+	cd $(appsdir)/xbmc-nightly && patch -p1 < "../../cdk/Patches/xbmc-nightly.pvr.$$DIFF.diff"; \
+	cd $(appsdir)/xbmc-nightly && patch -p1 < "../../cdk/Patches/xbmc-nightly.lirc.diff";
 	touch $@
 
 #endable webserver else httpapihandler will fail
-$(appsdir)/xbmc-nightly/config.status: bootstrap opkg libboost directfb libstgles libass libmpeg2 libmad libjpeg libsamplerate libogg libvorbis libmodplug libcurl libflac bzip2 tiff lzo libfribidi libfreetype sqlite libpng libpcre libcdio jasper yajl libmicrohttpd tinyxml python gstreamer gst_plugins_dvbmediasink libexpat libnfs taglib samba
+$(appsdir)/xbmc-nightly/config.status: bootstrap opkg libboost directfb libstgles libass libmpeg2 libmad libjpeg libsamplerate libogg libvorbis \
+				       libmodplug libcurl libflac bzip2 tiff lzo libfribidi libfreetype sqlite libpng libpcre libcdio jasper yajl \
+				       libmicrohttpd tinyxml python gstreamer gst_plugins_dvbmediasink libexpat taglib avahi libplist lirc wpa_supplicant \
+					   libnfs samba
 	cd $(appsdir)/xbmc-nightly && \
 		$(BUILDENV) \
 		./bootstrap && \
@@ -73,11 +97,11 @@ $(appsdir)/xbmc-nightly/config.status: bootstrap opkg libboost directfb libstgle
 			--disable-projectm \
 			--disable-goom \
 			--disable-afpclient \
-			--disable-airplay \
+			--enable-airplay \
 			--disable-airtunes \
 			--disable-dvdcss \
 			--disable-hal \
-			--disable-avahi \
+			--enable-avahi \
 			--disable-optical-drive \
 			--disable-libbluray \
 			--disable-texturepacker \

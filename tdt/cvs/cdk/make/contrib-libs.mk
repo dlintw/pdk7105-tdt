@@ -440,6 +440,7 @@ $(DEPDIR)/libmng: bootstrap libjpeg lcms @DEPENDS_libmng@
 	cd @DIR_libmng@ && \
 		cat unmaintained/autogen.sh | tr -d \\r > autogen.sh && chmod 755 autogen.sh && \
 		[ ! -x ./configure ] && ./autogen.sh --help || true && \
+		autoreconf --verbose --force --install -I$(hostprefix)/share/aclocal && \
 		$(BUILDENV) \
 		./configure \
 			--build=$(build) \
@@ -2324,3 +2325,38 @@ $(DEPDIR)/taglib: bootstrap @DEPENDS_taglib@
 	@DISTCLEANUP_taglib@
 	touch $@
 
+#
+# libdaemon
+#
+$(DEPDIR)/libdaemon: bootstrap @DEPENDS_libdaemon@
+	@PREPARE_libdaemon@
+	cd @DIR_libdaemon@ && \
+		$(BUILDENV) \
+		./configure \
+			ac_cv_func_setpgrp_void=yes \
+			--build=$(build) \
+			--host=$(target) \
+			--prefix=/usr \
+			--disable-static && \
+		$(MAKE) all && \
+		@INSTALL_libdaemon@
+	@DISTCLEANUP_libdaemon@
+	touch $@
+	
+#
+# libplist
+#
+$(DEPDIR)/libplist: bootstrap @DEPENDS_libplist@
+	@PREPARE_libplist@
+	cd @DIR_libplist@ && \
+		rm CMakeFiles/* -rf CMakeCache.txt cmake_install.cmake && \
+		cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_SYSTEM_NAME="Linux" \
+			-DCMAKE_INSTALL_PREFIX="" \
+			-DCMAKE_C_COMPILER="$(target)-gcc" \
+			-DCMAKE_CXX_COMPILER="$(target)-g++" && \
+			find . -name cmake_install.cmake -print0 | xargs -0 \
+			sed -i 's@SET(CMAKE_INSTALL_PREFIX "/usr/local")@SET(CMAKE_INSTALL_PREFIX "")@' && \
+		$(MAKE) all && \
+		@INSTALL_libplist@
+	@DISTCLEANUP_libplist@
+	touch $@

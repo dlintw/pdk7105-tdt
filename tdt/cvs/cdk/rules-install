@@ -131,6 +131,14 @@ libnfs;make:install:DESTDIR=TARGETS
 taglib;make:install:DESTDIR=TARGETS
 
 #
+# AirPlay
+#
+avahi;make:install:prefix=/usr:DESTDIR=TARGETS
+dbus;rewrite-pkgconfig:dbus-1.pc;make:install:prefix=/usr:DESTDIR=TARGETS
+libdaemon;make:install:prefix=/usr:DESTDIR=TARGETS
+libplist;rewrite-pkgconfig:libplist.pc;make:install:DESTDIR=TARGETS/usr
+
+#
 # PYTHON
 #
 libxml2;rewrite-pkgconfig:libxml-2.0.pc;make:install:DESTDIR=TARGETS;rewrite-libtool:TARGETS/usr/lib/libxml2.la;rewrite-dependency:TARGETS/usr/lib/libxml2.la
