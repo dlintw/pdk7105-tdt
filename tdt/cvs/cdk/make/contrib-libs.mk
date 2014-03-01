@@ -2348,12 +2348,14 @@ $(DEPDIR)/libdaemon: bootstrap @DEPENDS_libdaemon@
 #
 $(DEPDIR)/libplist: bootstrap @DEPENDS_libplist@
 	@PREPARE_libplist@
+	export PKG_CONFIG_PATH=$(targetprefix)/usr/lib/pkgconfig:$(PKG_CONFIG_PATH) && \
 	cd @DIR_libplist@ && \
 		rm CMakeFiles/* -rf CMakeCache.txt cmake_install.cmake && \
 		cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_SYSTEM_NAME="Linux" \
 			-DCMAKE_INSTALL_PREFIX="" \
 			-DCMAKE_C_COMPILER="$(target)-gcc" \
-			-DCMAKE_CXX_COMPILER="$(target)-g++" && \
+			-DCMAKE_CXX_COMPILER="$(target)-g++" \
+			-DCMAKE_INCLUDE_PATH="$(targetprefix)/usr/include" && \
 			find . -name cmake_install.cmake -print0 | xargs -0 \
 			sed -i 's@SET(CMAKE_INSTALL_PREFIX "/usr/local")@SET(CMAKE_INSTALL_PREFIX "")@' && \
 		$(MAKE) all && \
