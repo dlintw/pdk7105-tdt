@@ -19,7 +19,8 @@ $(DEPDIR)/xbmc-nightly.do_prepare:
 	echo "5) Fri, 02 Jan 2013 22:34 - Frodo_rc3    - 7a6cb7f49ae19dca3c48c40fa3bd20dc3c490e60"; \
 	echo "6) Thu, 12 Dec 2013 13:47 - 12.3-Frodo   - 9ed3e580ea7c000541273cbac116ec9e314124ca"; \
 	echo "7) current inactive... comming soon, here is the next stable (case 7 == DIFF=7)"; \
-	read -p "Select: "; \
+	echo read -p "Select: "; \
+	REPLY=6 ; \
 	echo "Selection: " $$REPLY; \
 	[ "$$REPLY" == "0" ] && DIFF="4"; \
 	[ "$$REPLY" == "1" ] && DIFF="1" && REVISION="460e79416c5cb13010456794f36f89d49d25da75"; \
