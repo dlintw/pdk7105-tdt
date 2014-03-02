@@ -16,5 +16,8 @@ Build Environment
 
 Git Source
 ==========
+
+use git_remote.sh to add upstream repositories.
+
 * https://github.com/suzuke/pdk7105-tdt pdk7105 branch (patch for NextVOD)
 * https://gitorious.org/open-duckbox-project-sh4/max-tdt (Original upstream)
