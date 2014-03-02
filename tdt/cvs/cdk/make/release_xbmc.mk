@@ -8,24 +8,87 @@
 release_xbmc_common_utils:
 #	remove the slink to busybox
 	rm -f $(prefix)/release/sbin/halt
-	cp -f $(targetprefix)/sbin/halt $(prefix)/release/sbin/
-	cp $(buildprefix)/root/etc/init.d/umountfs $(prefix)/release/etc/init.d/
-	cp $(buildprefix)/root/etc/init.d/rc $(prefix)/release/etc/init.d/
-	cp $(buildprefix)/root/etc/init.d/sendsigs $(prefix)/release/etc/init.d/
+	cp -f $(targetprefix)/sbin/halt		$(prefix)/release/sbin/
+	cp $(buildprefix)/root/release/umountfs $(prefix)/release/etc/init.d/
+	cp $(buildprefix)/root/release/rc $(prefix)/release/etc/init.d/
+	cp $(buildprefix)/root/release/sendsigs $(prefix)/release/etc/init.d/
 	chmod 755 $(prefix)/release/etc/init.d/umountfs
 	chmod 755 $(prefix)/release/etc/init.d/rc
 	chmod 755 $(prefix)/release/etc/init.d/sendsigs
+	
+	cp -aR $(buildprefix)/root/etc/mdev $(prefix)/release/etc/
+	cp -f $(buildprefix)/root/etc/mdev.conf $(prefix)/release/etc/
+	
+	cp -f $(targetprefix)/usr/sbin/iwconfig $(prefix)/release/usr/sbin/
+	cp -f $(targetprefix)/usr/sbin/iwevent $(prefix)/release/usr/sbin/
+	cp -f $(targetprefix)/usr/sbin/iwgetid $(prefix)/release/usr/sbin/
+	cp -f $(targetprefix)/usr/sbin/iwlist $(prefix)/release/usr/sbin/
+	cp -f $(targetprefix)/usr/sbin/iwpriv $(prefix)/release/usr/sbin/
+	cp -f $(targetprefix)/usr/sbin/iwspy $(prefix)/release/usr/sbin/
+	cp -f $(targetprefix)/usr/local/sbin/wpa_cli $(prefix)/release/usr/sbin/
+	cp -f $(targetprefix)/usr/local/sbin/wpa_passphrase $(prefix)/release/usr/sbin/
+	cp -f $(targetprefix)/usr/local/sbin/wpa_supplicant $(prefix)/release/usr/sbin/
+
+	cp -f $(targetprefix)/usr/sbin/avahi-autoipd $(prefix)/release/usr/sbin/
+	cp -f $(targetprefix)/usr/sbin/avahi-daemon $(prefix)/release/usr/sbin/
+	cp -f $(targetprefix)/usr/sbin/avahi-dnsconfd $(prefix)/release/usr/sbin/
+	cp -aR $(targetprefix)/etc/avahi $(prefix)/release/etc/
+	cp -f $(buildprefix)/root/etc/init.d/avahi-daemon $(prefix)/release/etc/init.d/
+	
+#	cp -f $(targetprefix)/usr/bin/dbus-daemon $(prefix)/release/usr/bin/
+#	cp -f $(targetprefix)/usr/bin/dbus-uuidgen $(prefix)/release/usr/bin/
+#	cp -f $(targetprefix)/usr/bin/dbus-cleanup-sockets $(prefix)/release/usr/bin/
+#	cp -f $(targetprefix)/usr/bin/dbus-launch $(prefix)/release/usr/bin/
+#	cp -f $(targetprefix)/usr/bin/dbus-monitor $(prefix)/release/usr/bin/
+#	cp -f $(targetprefix)/usr/bin/dbus-run-session $(prefix)/release/usr/bin/
+#	cp -f $(targetprefix)/usr/bin/dbus-send $(prefix)/release/usr/bin/
+	cp -aR $(targetprefix)/etc/dbus-1 $(prefix)/release/etc/
+#	cp -f $(buildprefix)/root/etc/init.d/dbus $(prefix)/release/etc/init.d/
+
+	cp -f $(targetprefix)/usr/bin/irw $(prefix)/release/usr/bin/
+	cp -f $(targetprefix)/usr/bin/irrecord $(prefix)/release/usr/bin/
+	cp -f $(targetprefix)/usr/bin/irexec $(prefix)/release/usr/bin/
+	cp -f $(targetprefix)/usr/bin/ircat $(prefix)/release/usr/bin/
+	cp -f $(targetprefix)/usr/sbin/lircd $(prefix)/release/usr/sbin/
+	cp -f $(buildprefix)/root/etc/init.d/lircd $(prefix)/release/etc/init.d/
+	cp -f $(buildprefix)/root/etc/init.d/irexecd $(prefix)/release/etc/init.d/
+	cp -f $(buildprefix)/root/etc/irexec.conf $(prefix)/release/etc/
+	mkdir -p $(prefix)/release/var/run/lirc
+	
+	cp -f $(buildprefix)/root/etc/init.d/ntpd $(prefix)/release/etc/init.d/
+	
+	cp -f $(buildprefix)/root/etc/init.d/telnetd $(prefix)/release/etc/init.d/
+
+	cp -f $(targetprefix)/usr/sbin/vsftpd $(prefix)/release/usr/sbin/	
+	cp -f $(buildprefix)/root/release/vsftpd $(prefix)/release/etc/init.d/
+	
+	cp -f $(buildprefix)/root/etc/init.d/xbmc $(prefix)/release/etc/init.d/
+	
 	mkdir -p $(prefix)/release/etc/rc.d/rc0.d
-	ln -s ../init.d $(prefix)/release/etc/rc.d
-	ln -fs halt $(prefix)/release/sbin/reboot
-	ln -fs halt $(prefix)/release/sbin/poweroff
-	ln -s ../init.d/sendsigs $(prefix)/release/etc/rc.d/rc0.d/S20sendsigs
-	ln -s ../init.d/umountfs $(prefix)/release/etc/rc.d/rc0.d/S40umountfs
-	ln -s ../init.d/halt $(prefix)/release/etc/rc.d/rc0.d/S90halt
+	ln -s ../init.d			$(prefix)/release/etc/rc.d
+	ln -fs halt			$(prefix)/release/sbin/reboot
+	ln -fs halt			$(prefix)/release/sbin/poweroff
+	ln -s ../init.d/sendsigs	$(prefix)/release/etc/rc.d/rc0.d/S20sendsigs
+	ln -s ../init.d/umountfs	$(prefix)/release/etc/rc.d/rc0.d/S40umountfs
+	ln -s ../init.d/halt		$(prefix)/release/etc/rc.d/rc0.d/S90halt
+	
+	mkdir -p $(prefix)/release/etc/rc.d/rc3.d
+	ln -s ../init.d/mountvirtfs	$(prefix)/release/etc/rc.d/rc3.d/S10mountvirtfs
+	ln -s ../init.d/mountall	$(prefix)/release/etc/rc.d/rc3.d/S12mountall
+	ln -s ../init.d/hostname	$(prefix)/release/etc/rc.d/rc3.d/S20hostname
+	ln -s ../init.d/udhcpc		$(prefix)/release/etc/rc.d/rc3.d/S22udhcpc
+	ln -s ../init.d/lircd		$(prefix)/release/etc/rc.d/rc3.d/S25lircd
+	ln -s ../init.d/irexecd		$(prefix)/release/etc/rc.d/rc3.d/S26irexecd
+	ln -s ../init.d/ntpd		$(prefix)/release/etc/rc.d/rc3.d/S30ntpd
+	ln -s ../init.d/telnetd		$(prefix)/release/etc/rc.d/rc3.d/S35telnetd
+	ln -s ../init.d/vsftpd		$(prefix)/release/etc/rc.d/rc3.d/S40vsftpd
+	ln -s ../init.d/avahi-daemon	$(prefix)/release/etc/rc.d/rc3.d/S50avahi-daemon
+	ln -s ../init.d/xbmc		$(prefix)/release/etc/rc.d/rc3.d/S90xbmc
+	
 	mkdir -p $(prefix)/release/etc/rc.d/rc6.d
-	ln -s ../init.d/sendsigs $(prefix)/release/etc/rc.d/rc6.d/S20sendsigs
-	ln -s ../init.d/umountfs $(prefix)/release/etc/rc.d/rc6.d/S40umountfs
-	ln -s ../init.d/reboot $(prefix)/release/etc/rc.d/rc6.d/S90reboot
+	ln -s ../init.d/sendsigs	$(prefix)/release/etc/rc.d/rc6.d/S20sendsigs
+	ln -s ../init.d/umountfs	$(prefix)/release/etc/rc.d/rc6.d/S40umountfs
+	ln -s ../init.d/reboot		$(prefix)/release/etc/rc.d/rc6.d/S90reboot
 
 #
 # release_ufs912
@@ -126,26 +189,27 @@ release_xbmc_spark: release_xbmc_common_utils
 # release_xbmc_spark7162
 #
 release_xbmc_spark7162: release_xbmc_common_utils
-	echo "spark7162" > $(prefix)/release/etc/hostname
+	echo "NextVOD" > $(prefix)/release/etc/hostname
 	cp $(buildprefix)/root/release/halt_spark $(prefix)/release/etc/init.d/halt
 	chmod 755 $(prefix)/release/etc/init.d/halt
-#	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontcontroller/aotom/aotom.ko $(prefix)/release/lib/modules/
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontcontroller/aotom_spark/aotom.ko $(prefix)/release/lib/modules/
 	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/stgfb/stmfb/stmcore-display-sti7105.ko $(prefix)/release/lib/modules/
 	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontends/*.ko $(prefix)/release/lib/modules/
 	if [ -e $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/i2c_spi/i2s.ko ]; then \
 		cp -f $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/i2c_spi/i2s.ko $(prefix)/release/lib/modules/; \
 	fi
+#	cp -ar $(targetprefix)/lib/modules/$(KERNELVERSION) $(prefix)/release/lib/modules/
 	cp $(targetprefix)/boot/video_7105.elf $(prefix)/release/boot/video.elf
 	cp $(targetprefix)/boot/audio_7105.elf $(prefix)/release/boot/audio.elf
+	cp $(targetprefix)/boot/audio_dts_7105.elf $(prefix)/release/boot/audio_dts.elf
 	mv $(prefix)/release/lib/firmware/component_7105_pdk7105.fw $(prefix)/release/lib/firmware/component.fw
 	rm -f $(prefix)/release/lib/firmware/component_7111_mb618.fw
 	rm -f $(prefix)/release/lib/firmware/dvb-fe-{avl2108,avl6222,cx24116,cx21143,stv6306}.fw
 	rm -f $(prefix)/release/bin/evremote
 	rm -f $(prefix)/release/bin/gotosleep
 	rm -f $(prefix)/release/bin/vdstandby
-	cp -dp $(buildprefix)/root/etc/lircd_spark7162.conf $(prefix)/release/etc/lircd.conf
-	cp -p $(buildprefix)/root/usr/bin/lircd $(prefix)/release/usr/bin/
-	mkdir -p $(prefix)/release/var/run/lirc
+#	cp -dp $(buildprefix)/root/etc/lircd_spark7162.conf $(prefix)/release/etc/lircd.conf
+	cp -dp $(buildprefix)/root/etc/lircd_nextvod.conf $(prefix)/release/etc/lircd.conf
 	cp -f $(buildprefix)/root/sbin/flashcp $(prefix)/release/sbin
 	cp -f $(buildprefix)/root/sbin/flash_* $(prefix)/release/sbin
 	cp -f $(buildprefix)/root/sbin/nand* $(prefix)/release/sbin
@@ -209,7 +273,7 @@ release_xbmc_base:
 	cp -dp $(targetprefix)/etc/hosts $(prefix)/release/etc/ && \
 	cp $(buildprefix)/root/etc/inetd.conf $(prefix)/release/etc/ && \
 	cp -dp $(targetprefix)/etc/inittab $(prefix)/release/etc/ && \
-	cp -dp $(targetprefix)/etc/localtime $(prefix)/release/etc/ && \
+	ln -s ../usr/share/zoneinfo/Taipei $(prefix)/release/etc/localtime && \
 	cp -dp $(targetprefix)/etc/mtab $(prefix)/release/etc/ && \
 	cp -dp $(targetprefix)/etc/passwd $(prefix)/release/etc/ && \
 	cp -dp $(targetprefix)/etc/profile $(prefix)/release/etc/ && \
@@ -229,19 +293,16 @@ release_xbmc_base:
 	cp $(buildprefix)/root/etc/init.d/reboot $(prefix)/release/etc/init.d/ && \
 	cp -aR $(buildprefix)/root/usr/share/udhcpc/* $(prefix)/release/usr/share/udhcpc/ && \
 	cp -aR $(buildprefix)/root/usr/share/zoneinfo/* $(prefix)/release/usr/share/zoneinfo/ && \
-	echo "576i50" > $(prefix)/release/etc/videomode && \
+	echo "480i60" > $(prefix)/release/etc/videomode && \
 	cp $(buildprefix)/root/release/rcS_stm23_xbmc$(if $(TF7700),_$(TF7700))$(if $(HL101),_$(HL101))$(if $(VIP1_V2),_$(VIP1_V2))$(if $(VIP2_V1),_$(VIP2_V1))$(if $(UFS912),_$(UFS912))$(if $(UFS913),_$(UFS913))$(if $(SPARK),_$(SPARK))$(if $(SPARK7162),_$(SPARK7162))$(if $(UFS922),_$(UFS922))$(if $(OCTAGON1008),_$(OCTAGON1008))$(if $(FORTIS_HDBOX),_$(FORTIS_HDBOX))$(if $(ATEVIO7500),_$(ATEVIO7500))$(if $(HS7810A),_$(HS7810A))$(if $(HS7110),_$(HS7110))$(if $(WHITEBOX),_$(WHITEBOX))$(if $(CUBEREVO),_$(CUBEREVO))$(if $(CUBEREVO_MINI),_$(CUBEREVO_MINI))$(if $(CUBEREVO_MINI2),_$(CUBEREVO_MINI2))$(if $(CUBEREVO_MINI_FTA),_$(CUBEREVO_MINI_FTA))$(if $(CUBEREVO_250HD),_$(CUBEREVO_250HD))$(if $(CUBEREVO_2000HD),_$(CUBEREVO_2000HD))$(if $(CUBEREVO_9500HD),_$(CUBEREVO_9500HD))$(if $(IPBOX9900),_$(IPBOX9900))$(if $(IPBOX99),_$(IPBOX99))$(if $(IPBOX55),_$(IPBOX55))$(if $(ADB_BOX),_$(ADB_BOX)) $(prefix)/release/etc/init.d/rcS && \
 	chmod 755 $(prefix)/release/etc/init.d/rcS && \
 	cp $(buildprefix)/root/etc/init.d/mountvirtfs $(prefix)/release/etc/init.d/ && \
 	cp $(buildprefix)/root/release/mme_check $(prefix)/release/etc/init.d/ && \
-	cp $(buildprefix)/root/etc/init.d/mountall $(prefix)/release/etc/init.d/ && \
-	cp $(buildprefix)/root/etc/init.d/hostname $(prefix)/release/etc/init.d/ && \
-	cp $(buildprefix)/root/etc/init.d/vsftpd $(prefix)/release/etc/init.d/ && \
-	cp $(buildprefix)/root/release/xbmc_userdata $(prefix)/release/etc/init.d/ && \
-	cp -dp $(targetprefix)/usr/sbin/vsftpd $(prefix)/release/usr/bin/ && \
-	cp $(buildprefix)/root/etc/init.d/bootclean.sh $(prefix)/release/etc/init.d/ && \
-	cp $(buildprefix)/root/etc/init.d/network $(prefix)/release/etc/init.d/ && \
-	cp $(buildprefix)/root/etc/init.d/networking $(prefix)/release/etc/init.d/ && \
+	cp $(buildprefix)/root/release/mountall $(prefix)/release/etc/init.d/ && \
+	cp $(buildprefix)/root/release/hostname $(prefix)/release/etc/init.d/ && \
+	cp $(buildprefix)/root/release/bootclean.sh $(prefix)/release/etc/init.d/ && \
+	cp $(buildprefix)/root/release/network $(prefix)/release/etc/init.d/ && \
+	cp $(buildprefix)/root/release/networking $(prefix)/release/etc/init.d/ && \
 	cp $(buildprefix)/root/bootscreen/bootlogo.mvi $(prefix)/release/boot/ && \
 	cp $(buildprefix)/root/bin/autologin $(prefix)/release/bin/ && \
 	cp -p $(targetprefix)/usr/bin/killall $(prefix)/release/usr/bin/ && \
@@ -343,7 +404,7 @@ endif
 	rm -f $(prefix)/release/lib/*.{a,o,la}
 
 	cp -R $(targetprefix)/usr/lib/* $(prefix)/release/usr/lib/
-	rm -rf $(prefix)/release/usr/lib/{engines,gconv,ldscripts,libxslt-plugins,pkgconfig,python$(PYTHON_VERSION),sigc++-1.2,X11}
+	rm -rf $(prefix)/release/usr/lib/{engines,ldscripts,libxslt-plugins,pkgconfig,python$(PYTHON_VERSION),sigc++-1.2,X11}
 	rm -f $(prefix)/release/usr/lib/*.{a,o,la}
 
 #
@@ -387,7 +448,7 @@ endif
 	rm -rf $(prefix)/release$(PYTHON_DIR)/{bsddb,compiler,ctypes,curses,distutils,email,plat-linux3,test}
 
 #
-# Dont remove pyo files, remove pyc instead
+# Don't remove pyo files, remove pyc instead
 #
 	find $(prefix)/release$(PYTHON_DIR)/ -name '*.pyc' -exec rm -f {} \;
 	find $(prefix)/release$(PYTHON_DIR)/ -name '*.a' -exec rm -f {} \;
@@ -531,7 +592,7 @@ endif
 	fi
 
 	mkdir $(prefix)/release/usr/share/xbmc/
-	cp -ra $(targetprefix)/usr/share/xbmc/*          $(prefix)/release/usr/share/xbmc/
+	cp -ra $(targetprefix)/usr/share/xbmc/*		$(prefix)/release/usr/share/xbmc/
 	ln -sf /usr/share/xbmc/language/German $(prefix)/release/usr/share/xbmc/language/English
 	rm -rf $(prefix)/release/usr/lib/xbmc/system/players/paplayer
 #	rm -rf $(prefix)/release/usr/lib/xbmc/system/players/dvdplayer
@@ -542,6 +603,7 @@ endif
 	sed -i "s/<home>FirstPage<\/home>/<home>PreviousMenu<\/home>/g" $(prefix)/release/usr/share/xbmc/system/keymaps/keyboard.xml
 #	cp -a $(targetprefix)/usr/share/xbmc/system/keymaps/remote.xml $(prefix)/release/usr/share/xbmc/system/keymaps/
 	cp $(buildprefix)/root/release/keymap_xbmc.xml $(prefix)/release/usr/share/xbmc/system/keymaps/duckbox.xml
+	cp -ra $(buildprefix)/root/usr/share/xbmc/*	$(prefix)/release/usr/share/xbmc/
 
 #
 # The main target depends on the model.

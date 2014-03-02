@@ -1,0 +1,42 @@
+#!/bin/sh
+# /etc/init.d/avahi-deamon: start or stop avahi-daemon
+
+set -e
+
+PATH=/bin:/usr/bin:/sbin:/usr/sbin
+DAEMON_1=/usr/sbin/avahi-daemon
+DAEMON_2=/usr/avahi-dnsconfd
+
+#test -x $DAEMON_1 || exit 0
+#test -x $DAEMON_2 || exit 0
+
+case "$1" in
+  start)
+    echo -n "Starting the Avahi Daemon..."
+    /usr/sbin/avahi-daemon -D
+
+    echo -n "Starting the Avahi mDNS/DNS-SD Configuration Daemon..."
+    /usr/sbin/avahi-dnsconfd -D    
+  ;;
+
+  restart)
+    /etc/init.d/avahi-daemon stop
+    /etc/init.d/avahi-daemon start
+  ;;
+
+  stop)
+    echo -n "Stopping the Avahi mDNS/DNS-SD Configuration Daemon..."
+    /usr/sbin/avahi-dnsconfd -k
+    
+    echo -n "Stopping the Avahi Daemon..."
+    /usr/sbin/avahi-daemon -k
+  ;;
+
+  *)
+    echo "Usage: /etc/init.d/udhcpc {start|stop|restart}"
+    exit 1
+    ;;
+esac
+
+exit 0
+

@@ -9,6 +9,8 @@ release_common_utils:
 #	remove the slink to busybox
 	rm -f $(prefix)/release/sbin/halt
 	cp -f $(targetprefix)/sbin/halt $(prefix)/release/sbin/
+	cp -f $(targetprefix)/sbin/modinfo $(prefix)/release/sbin/
+	cp -f $(targetprefix)/sbin/depmod $(prefix)/release/sbin/
 	cp $(buildprefix)/root/release/umountfs $(prefix)/release/etc/init.d/
 	cp $(buildprefix)/root/release/rc $(prefix)/release/etc/init.d/
 	cp $(buildprefix)/root/release/sendsigs $(prefix)/release/etc/init.d/
@@ -272,7 +274,7 @@ release_spark: release_common_utils
 # release_spark7162
 #
 release_spark7162: release_common_utils
-	echo "spark7162" > $(prefix)/release/etc/hostname
+	echo "NextVOD" > $(prefix)/release/etc/hostname
 	cp $(buildprefix)/root/release/halt_spark $(prefix)/release/etc/init.d/halt
 	chmod 755 $(prefix)/release/etc/init.d/halt
 	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontcontroller/aotom_spark/aotom.ko $(prefix)/release/lib/modules/

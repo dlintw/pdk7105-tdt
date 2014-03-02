@@ -786,6 +786,8 @@ TUXBOX_RULES_MAKE(opkg)
 TUXBOX_RULES_MAKE(sysstat)
 TUXBOX_RULES_MAKE(imagemagick)
 TUXBOX_RULES_MAKE(shairport)
+TUXBOX_RULES_MAKE(dbus)
+TUXBOX_RULES_MAKE(avahi)
 
 #
 # contrib libs
@@ -869,6 +871,8 @@ TUXBOX_RULES_MAKE(gmediarender)
 TUXBOX_RULES_MAKE(tinyxml)
 TUXBOX_RULES_MAKE(libnfs)
 TUXBOX_RULES_MAKE(taglib)
+TUXBOX_RULES_MAKE(libdaemon)
+TUXBOX_RULES_MAKE(libplist)
 
 #
 # python

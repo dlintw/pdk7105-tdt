@@ -147,6 +147,14 @@ libnfs;c0ebf57b21;libnfs-c0ebf57b21;libnfs.git;extract:libnfs.git
 taglib;1.8;taglib-1.8;taglib-1.8.tar.gz;extract:taglib-1.8.tar.gz
 
 #
+# AirPlay
+#
+avahi;0.6.31;avahi-0.6.31;avahi-0.6.31.tar.gz;extract:avahi-0.6.31.tar.gz
+dbus;1.8;dbus-dbus-1.8;dbus-dbus-1.8.tar.gz;extract:dbus-dbus-1.8.tar.gz
+libdaemon;0.14;libdaemon-0.14;libdaemon-0.14.tar.gz;extract:libdaemon-0.14.tar.gz
+libplist;1.10;libplist-1.10;libplist-1.10.tar.gz;extract:libplist-1.10.tar.gz
+
+#
 # PYTHON
 #
 elementtree;1.2.6-20050316;elementtree-1.2.6-20050316;elementtree-1.2.6-20050316.tar.gz;extract:elementtree-1.2.6-20050316.tar.gz

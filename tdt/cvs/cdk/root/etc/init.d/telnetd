@@ -1,0 +1,36 @@
+#!/bin/sh
+#
+# This is an init script for Debian Sid
+# Copy it to /etc/init.d/telnetd and type
+# > update-rc.d telnetd defaults 25
+#
+
+test -f /usr/sbin/telnetd || exit 0
+
+case "$1" in
+  start)
+    echo -n "Starting telnet daemon: telnetd"
+    start-stop-daemon --start --quiet --exec /usr/sbin/telnetd -- -l /bin/autologin
+    ;;
+  stop)
+    echo -n "Stopping telnet daemon: telnetd"
+    start-stop-daemon --stop --quiet --exec /usr/sbin/telnetd
+    echo "."
+    ;;
+  reload|force-reload)
+    start-stop-daemon --stop --quiet --signal 1 --exec /usr/sbin/telnetd
+    ;;
+  restart)
+    echo -n "Stopping telnet daemon: telnetd"
+    start-stop-daemon --stop --quiet --exec /usr/sbin/telnetd
+    sleep 1
+    echo -n "Starting telnet daemon: telnetd"
+    start-stop-daemon --start --quiet --exec /usr/sbin/telnetd -- -l /bin/autologin
+    echo "."
+    ;;
+  *)
+    echo "Usage: /etc/init.d/telnetd {start|stop|reload|restart|force-reload}"
+    exit 1
+esac
+
+exit 0
