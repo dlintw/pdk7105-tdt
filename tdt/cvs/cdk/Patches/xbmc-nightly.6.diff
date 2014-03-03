@@ -12916,22 +12916,6 @@ diff -Nur xbmc-nightly.org/xbmc/input/linux/LinuxInputDevices.cpp xbmc-nightly/x
  }
  
  int CLinuxInputDevice::KeyboardGetSymbol(unsigned short value)
-diff -Nur xbmc-nightly.org/xbmc/input/linux/LIRC.cpp xbmc-nightly/xbmc/input/linux/LIRC.cpp
---- xbmc-nightly.org/xbmc/input/linux/LIRC.cpp	2014-01-24 22:02:28.450066038 -0800
-+++ xbmc-nightly/xbmc/input/linux/LIRC.cpp	2014-02-14 17:58:07.000000000 -0800
-@@ -139,9 +139,11 @@
-   CLog::Log(LOGINFO, "LIRC %s: using: %s", __FUNCTION__, addr.sun_path);
- 
-   // Open the socket from which we will receive the remote commands
--  if ((m_fd = socket(AF_UNIX, SOCK_STREAM, 0)) != -1)
-+  m_fd = socket(AF_UNIX, SOCK_STREAM, 0);
-+  if (m_fd != -1)    
-   {
-     // Connect to the socket
-+    CLog::Log(LOGINFO, "LIRC %s: socket connected", __FUNCTION__);
-     if (connect(m_fd, (struct sockaddr *)&addr, sizeof(addr)) != -1)
-     {
-       int opts;
 diff -Nur xbmc-nightly.org/xbmc/interfaces/legacy/ModuleXbmc.cpp xbmc-nightly/xbmc/interfaces/legacy/ModuleXbmc.cpp
 --- xbmc-nightly.org/xbmc/interfaces/legacy/ModuleXbmc.cpp	2014-01-24 22:02:28.481069978 -0800
 +++ xbmc-nightly/xbmc/interfaces/legacy/ModuleXbmc.cpp	2014-02-14 18:27:05.151591215 -0800
